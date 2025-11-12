@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 220" width="1200" height="220">
+
+  <rect x="0" y="0" width="1200" height="220" rx="16" fill="#FFFFFF"/>
+  <text x="40" y="150" font-family="Sora, Arial, sans-serif" font-weight="800" font-size="132" fill="#011C40">TU</text>
+  <text x="240" y="150" font-family="Sora, Arial, sans-serif" font-weight="800" font-size="132" fill="#F68743">OFERTA</text>
+  <text x="980" y="150" font-family="Sora, Arial, sans-serif" font-weight="800" font-size="68" fill="#022859">MX</text>
+
+</svg>
