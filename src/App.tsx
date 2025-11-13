@@ -1,26 +1,27 @@
-import { useState } from 'react'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+
+import { Header } from "./global/components/header";
+import { HomePage } from "./modules/landing/pages/homePage";
+import { LoginModal } from "./modules/identity/components/loginModal";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   return (
-    <>
-      <div className='flex-1 items-center align-middle  app bg-gray-100 min-h-screen p-10'>
-        <div className="mt-10 p-5 bg-blue-500 text-white">
-        This is a Tailwind CSS styled div!
-      </div>
-      <div className="mt-5 p-5 bg-green-500 text-white">
-        <button className="bg-white text-green-500 px-4 py-2 rounded" onClick={() => setCount((count) => count + 1)}>
-          ++ count is {count}
-        </button>
-        <button className="bg-white text-green-500 px-4 py-2 rounded" onClick={() => setCount((count) => count - 1)}>
-          -- count is {count}
-        </button>
-      </div>
-      </div>
-    </>
-  )
+    <div className="min-h-screen bg-slate-50 flex flex-col">
+      <Header onLoginClick={() => setIsLoginOpen(true)} />
+
+      <main className="flex-1">
+        <HomePage />
+      </main>
+
+      <LoginModal
+        open={isLoginOpen}
+        onClose={() => setIsLoginOpen(false)}
+      />
+    </div>
+  );
 }
 
-export default App
+export default App;
