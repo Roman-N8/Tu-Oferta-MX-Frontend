@@ -4,6 +4,7 @@ import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
 
 interface LoginFormProps {
   onSuccess?: () => void;
+  onSwitchToRegister?: () => void;
 }
 
 // Regex de validación
@@ -12,7 +13,7 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,16}$/;
 
-export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
+export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegister }) => {
   const { login, loading, error: authError } = useAuth();
 
   const [email, setEmail] = useState("");
@@ -153,7 +154,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
       {/* Botón principal */}
       <button
         type="submit"
-        className="w-full rounded-md bg-[#011C40] px-4 py-2.5 text-xs sm:text-sm font-semibold text-white shadow-sm hover:bg-[#011C40]/90 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-[#F68743] transition disabled:opacity-60"
+        className="w-full rounded-md bg-[#224D73] px-4 py-2.5 text-xs sm:text-sm font-semibold text-white shadow-sm hover:bg-[#011C40]/90 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-[#F68743] transition disabled:opacity-60"
         disabled={loading}
       >
         {loading ? "Iniciando..." : "Inicia Sesión"}
@@ -186,6 +187,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
         <button
           type="button"
           className="font-semibold text-[#F68743] hover:underline"
+          onClick={onSwitchToRegister}
         >
           Regístrate aquí
         </button>

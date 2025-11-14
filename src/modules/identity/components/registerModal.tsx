@@ -1,16 +1,16 @@
 import React from "react";
-import { LoginForm } from "./loginForm";
+import { RegisterForm } from "./registerForm";
 
-interface LoginModalProps {
+interface RegisterModalProps {
   open: boolean;
   onClose: () => void;
-  onGoToRegister: () => void;
+  onGoToLogin: () => void;
 }
 
-export const LoginModal: React.FC<LoginModalProps> = ({
+export const RegisterModal: React.FC<RegisterModalProps> = ({
   open,
   onClose,
-  onGoToRegister,
+  onGoToLogin,
 }) => {
   if (!open) return null;
 
@@ -25,7 +25,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
           ✕
         </button>
 
-        <LoginForm onSuccess={onClose} onSwitchToRegister={onGoToRegister} />
+        <RegisterForm onSuccess={onClose} onSwitchToLogin={onGoToLogin} />
       </div>
     </div>
   );
