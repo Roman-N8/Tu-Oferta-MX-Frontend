@@ -16,11 +16,9 @@ export const RegistrationProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const setEmail = (value: string) => {
     setEmailState(value);
-    // opcional: también en localStorage por si recarga página
     localStorage.setItem("pendingRegistrationEmail", value);
   };
 
-  // al iniciar, intentar recuperar de localStorage
   React.useEffect(() => {
     const stored = localStorage.getItem("pendingRegistrationEmail");
     if (stored) setEmailState(stored);

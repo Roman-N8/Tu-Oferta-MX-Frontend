@@ -13,13 +13,12 @@ export interface LoginResponse {
   };
 }
 
-const API_URL = import.meta.env.VITE_API_URL ?? "https://back.ia-edgecloudsystem.com/";
-const APIL_URL = import.meta.env.VITE_API_URL ?? "http://127.0.0.1:8000/";
+const API_URL = import.meta.env.VITE_API_URL ?? "http://127.0.0.1:8000/";
 
 export async function loginRequest(
   payload: LoginPayload
 ): Promise<LoginResponse> {
-  const res = await fetch(`${API_URL}api/auth/login/`, {
+  const res = await fetch(`${API_URL}api/identity/auth/login/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -51,7 +50,7 @@ export interface RegisterResponse {
 export async function registerRequest(
   payload: RegisterPayload
 ): Promise<RegisterResponse> {
-  const res = await fetch(`${APIL_URL}api/identity/auth/initiate-registration/`, {
+  const res = await fetch(`${API_URL}api/identity/auth/initiate-registration/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -82,7 +81,7 @@ export interface VerifyEmailPayload {
 export async function verifyEmailCode(
   payload: VerifyEmailPayload
 ): Promise<{ message: string }> {
-  const res = await fetch(`${APIL_URL}api/identity/auth/verify-code/`, {
+  const res = await fetch(`${API_URL}api/identity/auth/verify-code/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
@@ -97,7 +96,7 @@ export async function verifyEmailCode(
 }
 
 export async function resendVerificationCode(email: string): Promise<{ message: string }> {
-  const res = await fetch(`${APIL_URL}api/identity/auth/resend-verification-code/`, {
+  const res = await fetch(`${API_URL}api/identity/auth/resend-verification-code/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email }),
@@ -130,7 +129,7 @@ export interface TokensResponse {
 export async function completeRegistration(
   payload: CompleteRegistrationPayload
 ): Promise<TokensResponse> {
-  const res = await fetch(`${APIL_URL}api/identity/auth/complete-registration/`, {
+  const res = await fetch(`${API_URL}api/identity/auth/complete-registration/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
@@ -143,6 +142,33 @@ export async function completeRegistration(
     throw new Error(
       data.detail || data.error || "No se pudo completar el registro"
     );
+  }
+
+  return res.json();
+}
+
+
+// Recuperación de contraseña
+// --------------------------------------------------
+// Paso 1: Solicitar restablecimiento
+// --------------------------------------------------
+
+export interface PasswordResetRequestPayload {
+  email: string;
+}
+
+export async function PasswordResetRequest(
+  payload: PasswordResetRequestPayload
+): Promise<{ message: string }> {
+  const res = await fetch(`${API_URL}auth/password-reset-request/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.detail || data.error || "Código inválido");
   }
 
   return res.json();

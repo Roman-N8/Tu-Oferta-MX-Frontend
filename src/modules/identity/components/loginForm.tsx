@@ -5,6 +5,8 @@ import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
 interface LoginFormProps {
   onSuccess?: () => void;
   onSwitchToRegister?: () => void;
+  onGoToForgotPassword?: () => void;
+  onLoggedIn?: () => void;
 }
 
 // Regex de validación
@@ -13,7 +15,7 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,16}$/;
 
-export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegister }) => {
+export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegister, onGoToForgotPassword, onLoggedIn }) => {
   const { login, loading, error: authError } = useAuth();
 
   const [email, setEmail] = useState("");
@@ -50,10 +52,12 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegis
 
     const result = await login({ email, password });
 
-    if (result && onSuccess) {
-      onSuccess();
+    if (result) {
+      if (onLoggedIn) onLoggedIn();  // 👈 avisamos que hay sesión
+      if (onSuccess) onSuccess();    // cerramos modal
     }
   };
+
 
   return (
     <form
@@ -146,6 +150,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegis
         <button
           type="button"
           className="text-[11px] sm:text-xs text-[#011C40] hover:underline"
+          onClick={onGoToForgotPassword}
         >
           Recuperar contraseña
         </button>

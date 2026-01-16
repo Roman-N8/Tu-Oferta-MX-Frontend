@@ -16,7 +16,7 @@ export const VerifyEmailPage: React.FC = () => {
   const inputsRef = useRef<Array<HTMLInputElement | null>>([]);
 
   const handleChange = (index: number, value: string) => {
-    if (!/^\d?$/.test(value)) return; // solo dígitos
+    if (!/^\d?$/.test(value)) return; 
     const newDigits = [...codeDigits];
     newDigits[index] = value;
     setCodeDigits(newDigits);
@@ -73,7 +73,6 @@ export const VerifyEmailPage: React.FC = () => {
   return (
     <AuthLayout>
       <form className="space-y-6" onSubmit={handleSubmit}>
-        {/* Back */}
         <button
           type="button"
           className="flex items-center gap-1 text-xs text-[#011C40]/80 hover:text-[#011C40]"
@@ -95,7 +94,6 @@ export const VerifyEmailPage: React.FC = () => {
           </p>
         </div>
 
-        {/* Inputs de código */}
         <div className="flex justify-center gap-3">
           {codeDigits.map((digit, idx) => (
             <input
@@ -118,7 +116,6 @@ export const VerifyEmailPage: React.FC = () => {
           </p>
         )}
 
-        {/* Botón continuar */}
         <button
           type="submit"
           className="w-full rounded-md bg-[#224D73] px-4 py-2.5 text-xs sm:text-sm font-semibold text-white shadow-sm hover:bg-[#224D73]/90 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-[#F68743] transition disabled:opacity-60"
@@ -127,7 +124,6 @@ export const VerifyEmailPage: React.FC = () => {
           {loading ? "Verificando..." : "Continuar"}
         </button>
 
-        {/* Reenviar */}
         <div className="pt-1 text-center text-[11px] sm:text-xs text-[#011C40]/70">
           ¿No has recibido el código?{" "}
           <button

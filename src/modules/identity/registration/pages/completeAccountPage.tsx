@@ -39,15 +39,15 @@ export const CompleteAccountPage: React.FC = () => {
         let phoneNumber = "";
 
         try {
-            const parsed = parsePhoneNumberWithError(phoneValue); // puede lanzar error
+            const parsed = parsePhoneNumberWithError(phoneValue); 
 
             if (!parsed.isValid()) {
                 setError("Ingresa un número de teléfono válido.");
                 return;
             }
 
-            prefixPhoneNumber = `+${parsed.countryCallingCode}`; // ej: +52
-            phoneNumber = parsed.nationalNumber;                 // ej: 4431234567
+            prefixPhoneNumber = `+${parsed.countryCallingCode}`;
+            phoneNumber = parsed.nationalNumber;                 
         } catch {
             setError("Ingresa un número de teléfono válido.");
             return;
@@ -65,14 +65,11 @@ export const CompleteAccountPage: React.FC = () => {
                 phoneNumber,
             });
 
-            // guardar tokens como en login
             localStorage.setItem("accessToken", tokens.accessToken);
             localStorage.setItem("refreshToken", tokens.refreshToken);
 
-            // limpiar email pendiente
             localStorage.removeItem("pendingRegistrationEmail");
 
-            // redirigir a home (o dashboard)
             navigate("/");
         } catch (err: any) {
             setError(err.message || "No se pudo completar el registro");
@@ -84,7 +81,6 @@ export const CompleteAccountPage: React.FC = () => {
     return (
         <AuthLayout>
             <form className="space-y-6" onSubmit={handleSubmit}>
-                {/* Back */}
                 <button
                     type="button"
                     className="flex items-center gap-1 text-xs text-[#011C40]/80 hover:text-[#011C40]"

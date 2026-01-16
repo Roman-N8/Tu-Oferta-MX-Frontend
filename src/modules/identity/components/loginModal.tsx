@@ -1,17 +1,22 @@
 import React from "react";
 import { LoginForm } from "./loginForm";
+import { useNavigate } from "react-router-dom";
 
 interface LoginModalProps {
   open: boolean;
   onClose: () => void;
   onGoToRegister: () => void;
+  onLoggedIn: () => void;
 }
 
 export const LoginModal: React.FC<LoginModalProps> = ({
   open,
   onClose,
   onGoToRegister,
+  onLoggedIn
 }) => {
+  const navigate = useNavigate();
+
   if (!open) return null;
 
   return (
@@ -25,7 +30,11 @@ export const LoginModal: React.FC<LoginModalProps> = ({
           ✕
         </button>
 
-        <LoginForm onSuccess={onClose} onSwitchToRegister={onGoToRegister} />
+        <LoginForm onSuccess={onClose} onSwitchToRegister={onGoToRegister} onGoToForgotPassword={() => {
+          onClose();
+          navigate("/auth/forgot-password");
+        }}
+          onLoggedIn={onLoggedIn}/>
       </div>
     </div>
   );

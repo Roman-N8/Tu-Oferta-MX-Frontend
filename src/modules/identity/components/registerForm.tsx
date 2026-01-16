@@ -9,7 +9,6 @@ interface RegisterFormProps {
   onSwitchToLogin?: () => void;
 }
 
-// mismos regex que en login
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,16}$/;
@@ -91,7 +90,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
       className="w-full max-w-md space-y-5 sm:space-y-6"
       onSubmit={handleSubmit}
     >
-      {/* Título */}
+
       <div className="text-center space-y-1">
         <h2 className="text-base sm:text-lg font-semibold text-[#011C40]">
           Crea tu cuenta para enterarte de las ofertas
@@ -100,7 +99,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
         </h2>
       </div>
 
-      {/* Correo */}
+
       <label className="flex flex-col gap-1 text-[11px] sm:text-xs text-[#011C40]">
         Correo Electrónico
         <input
@@ -121,8 +120,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
           </span>
         )}
       </label>
+    
 
-      {/* Contraseña */}
       <label className="flex flex-col gap-1 text-[11px] sm:text-xs text-[#011C40]">
         Contraseña
         <div
@@ -161,7 +160,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
         )}
       </label>
 
-      {/* Confirmar contraseña */}
+
       <label className="flex flex-col gap-1 text-[11px] sm:text-xs text-[#011C40]">
         Confirma la contraseña
         <div
@@ -208,7 +207,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
         )}
       </label>
 
-      {/* Términos */}
+
       <div className="flex items-start gap-2 text-[11px] sm:text-xs text-[#011C40]">
         <input
           type="checkbox"
@@ -235,14 +234,12 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
         </span>
       )}
 
-      {/* Error backend */}
       {registerError && !emailError && !passwordError && !passwordConfirmError && !termsError && (
         <p className="text-[11px] sm:text-xs text-red-600 text-center">
           {registerError}
         </p>
       )}
 
-      {/* Botón principal */}
       <button
         type="submit"
         className="mt-2 w-full rounded-md bg-[#224D73] px-4 py-2.5 text-xs sm:text-sm font-semibold text-white shadow-sm hover:bg-[#224D73]/90 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-[#F68743] transition disabled:opacity-60"
@@ -251,14 +248,12 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
         {loading ? "Creando cuenta..." : "Continuar"}
       </button>
 
-      {/* Separador */}
       <div className="flex items-center gap-3 text-[11px] sm:text-xs text-slate-400">
         <span className="h-px flex-1 bg-slate-200" />
         <span>o</span>
         <span className="h-px flex-1 bg-slate-200" />
       </div>
 
-      {/* Google */}
       <div className="space-y-3">
         <p className="text-center text-[11px] sm:text-xs text-[#011C40]/70">
           Continúa con
@@ -272,7 +267,6 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
         </button>
       </div>
 
-      {/* Ya tienes cuenta */}
       <p className="pt-2 text-center text-[11px] sm:text-xs text-[#011C40]/70">
         ¿Ya tienes una cuenta?{" "}
         <button
