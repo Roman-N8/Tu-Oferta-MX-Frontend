@@ -7,6 +7,8 @@ import FiltersSidebar from "../components/search/FiltersSidebar";
 import { useCatalogSearch } from "../hooks/useCatalogSearch";
 import { ProductCard } from "../components/productCard";
 
+import { useCart } from "../../cart/hooks/useCart";
+
 const PAGE_SIZE = 12;
 
 function asNumber(v: string | null): number | undefined {
@@ -16,7 +18,7 @@ function asNumber(v: string | null): number | undefined {
 }
 
 export default function SearchResultsPage() {
-  const navigate = useNavigate(); // ✅ AQUÍ
+  const navigate = useNavigate();
 
   const { categoryId } = useParams();
   const [params, setParams] = useSearchParams();
@@ -25,6 +27,8 @@ export default function SearchResultsPage() {
   const sort = (params.get("sort") as SortKey) ?? "relevance";
   const view = (params.get("view") as ViewMode) ?? "grid";
   const page = Math.max(1, Number(params.get("page") ?? "1"));
+
+  const { addItem } = useCart();
 
   const filters: SearchFilters = {
     categoryId: categoryId ?? (params.get("category") ?? undefined),
@@ -132,7 +136,19 @@ export default function SearchResultsPage() {
                               : undefined
                           }
                           onOpen={() => navigate(`/product/${p.id}`)}
-                          onAddToCart={() => console.log("add-to-cart", p.id)}
+                          onAddToCart={() =>
+                            addItem(
+                              {
+                                productId: p.id,
+                                title: p.title,
+                                brand: p.brand,
+                                imageUrl: p.imageUrl,
+                                price: p.price,
+                                stock: p.stock,
+                              },
+                              1
+                            )
+                          }
                         />
                       ))}
                     </div>

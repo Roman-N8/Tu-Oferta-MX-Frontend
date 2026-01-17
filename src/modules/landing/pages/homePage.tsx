@@ -5,16 +5,19 @@ import { ProviderCard, type ProviderCardProps } from "../../providers/components
 import { ProductCarouselSection } from "../../catalog/components/productCarouselSection";
 import { type ProductCardProps } from "../../catalog/components/productCard";
 
+import { useCart } from "../../cart/hooks/useCart";
+import { useNavigate } from "react-router-dom";
+
 import p1 from "../../../assets/products/p1.png";
 import p2 from "../../../assets/products/p2.png";
-import p3 from "../../../assets/products/p3.png";
-import p4 from "../../../assets/products/p4.png";
-import p5 from "../../../assets/products/p5.png";
+// import p3 from "../../../assets/products/p3.png";
+// import p4 from "../../../assets/products/p4.png";
+// import p5 from "../../../assets/products/p5.png";
 import p6 from "../../../assets/products/p6.png";
 import p7 from "../../../assets/products/p7.png";
 import p8 from "../../../assets/products/p8.png";
 
-// Mock temporal, luego lo cambias por datos de tu API
+// Mock temporal
 const providersMock: ProviderCardProps[] = [
   {
     name: "TechSolution MX",
@@ -56,11 +59,11 @@ const bestSellersMock: (ProductCardProps & { category: string })[] = [
     id: 1,
     brand: "Asus",
     name: "Asus Motherboard AMD B550, Prime B550M-A AC, AM4 mATX...",
-    imageUrl: p6, 
+    imageUrl: p6,
     rating: 0,
     reviewCount: 0,
     price: 4500,
-    category: "Todo", // o "Categoría 1", etc
+    category: "Todo",
   },
   {
     id: 2,
@@ -137,6 +140,8 @@ const bestSellersMock: (ProductCardProps & { category: string })[] = [
 ];
 
 export const HomePage: React.FC = () => {
+  const { addItem } = useCart();
+  const navigate = useNavigate();
   return (
     <>
       {/* HERO */}
@@ -193,8 +198,19 @@ export const HomePage: React.FC = () => {
         products={bestSellersMock}
         categories={["Categoría 1", "Categoría 2", "Categoría 3", "Categoría 4"]}
         showAllTab={true}
-        getProductCategory={(p) =>
-          (p as any).category // porque en el mock extendimos con category
+        getProductCategory={(p) => (p as any).category}
+        onOpenProduct={(p) => navigate(`/product/${p.id}`)}
+        onAddToCart={(p) =>
+          addItem(
+            {
+              productId: p.id,
+              title: p.name,       // 👈 mapeo name -> title
+              brand: p.brand,
+              imageUrl: p.imageUrl,
+              price: p.price,
+            },
+            1
+          )
         }
       />
 
@@ -202,13 +218,41 @@ export const HomePage: React.FC = () => {
       <ProductCarouselSection
         title="Lo más relevante de Seguridad"
         products={bestSellersMock}
+        onOpenProduct={(p) => navigate(`/product/${p.id}`)}
+        onAddToCart={(p) =>
+          addItem(
+            {
+              productId: p.id,
+              title: p.name,
+              brand: p.brand,
+              imageUrl: p.imageUrl,
+              price: p.price,
+            },
+            1
+          )
+        }
       />
+
 
       {/* SECCIÓN: Lo más relevante de Hardware (sin tabs) */}
       <ProductCarouselSection
-        title="Lo más relevante de Hardware"
+        title="Lo más relevante en hardware"
         products={bestSellersMock}
+        onOpenProduct={(p) => navigate(`/product/${p.id}`)}
+        onAddToCart={(p) =>
+          addItem(
+            {
+              productId: p.id,
+              title: p.name,
+              brand: p.brand,
+              imageUrl: p.imageUrl,
+              price: p.price,
+            },
+            1
+          )
+        }
       />
+
     </>
   );
 };

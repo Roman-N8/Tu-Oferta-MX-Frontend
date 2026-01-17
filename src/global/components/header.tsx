@@ -10,6 +10,8 @@ import {
 } from "react-icons/hi";
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
+import { useCart } from "../../modules/cart/hooks/useCart";
+
 interface HeaderProps {
   onLoginClick: () => void;
   isAuthenticated: boolean;
@@ -26,13 +28,15 @@ export const Header: React.FC<HeaderProps> = ({
 
   const [userMenuOpen, setUserMenuOpen] = React.useState(false);
 
-  // 🔎 search navigation
+  // search navigation
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
 
   const qFromUrl = searchParams.get("q") ?? "";
   const [query, setQuery] = React.useState("");
+
+  const { totalItems } = useCart();
 
   React.useEffect(() => {
     // Si estamos en /search, mantener input sincronizado con ?q=
@@ -99,9 +103,14 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
 
           {/* Carrito */}
-          <button className={navItemBase} type="button">
+          <button type="button" className={navItemBase} onClick={() => navigate("/cart")}>
             <HiOutlineShoppingCart className="h-5 w-5 text-[#011C40]" />
-            <span className="hidden xs:inline">Tu carrito de compras</span>
+            <span className="hidden xs:inline">Carrito</span>
+            {totalItems > 0 && (
+              <span className="ml-1 text-[11px] bg-[#F68743] text-white rounded-full px-2 py-0.5">
+                {totalItems}
+              </span>
+            )}
           </button>
 
           {/* Login */}

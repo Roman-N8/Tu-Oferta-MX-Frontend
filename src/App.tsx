@@ -24,6 +24,10 @@ import { AccountSettingsPage } from "./modules/account/pages/accountSettingsPage
 import SearchResultsPage from "./modules/catalog/pages/SearchResultsPage";
 import ProductDetailPage from "./modules/catalog/pages/ProductDetailPage";
 
+/* ===== CATALOG ===== */
+import {CartProvider} from "./modules/cart/domain/cartStore"
+import CartPage from "./modules/cart/pages/CartPage";
+
 type AuthMode = "login" | "register" | null;
 
 function App() {
@@ -39,6 +43,7 @@ function App() {
   return (
     <BrowserRouter>
       <RegistrationProvider>
+        <CartProvider>
         <div className="min-h-screen bg-slate-50 flex flex-col">
           <Routes>
             {/* ================= HOME ================= */}
@@ -95,6 +100,20 @@ function App() {
               }
             />
 
+            {/* ================= CART ================= */}
+            <Route
+              path="/cart"
+              element={
+                <AppShell
+                  isAuthenticated={isAuthenticated}
+                  onLogin={() => setAuthMode("login")}
+                  onLogout={handleLogout}
+                >
+                  <CartPage />
+                </AppShell>
+              }
+            />
+
             {/* ================= PRODUCT DETAIL ================= */}
             <Route
               path="/product/:productId"
@@ -145,6 +164,7 @@ function App() {
             onGoToLogin={() => setAuthMode("login")}
           />
         </div>
+        </CartProvider> 
       </RegistrationProvider>
     </BrowserRouter>
   );

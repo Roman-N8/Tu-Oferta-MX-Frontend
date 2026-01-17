@@ -3,10 +3,13 @@ import { Link, useParams } from "react-router-dom";
 import { HiStar } from "react-icons/hi";
 import { useProductDetail } from "../hooks/useProductDetail";
 import { ProductCard } from "../components/productCard";
+import { useCart } from "../../cart/hooks/useCart";
 
 export default function ProductDetailPage() {
   const { productId } = useParams();
   const { product, loading, error } = useProductDetail(productId);
+
+  const { addItem } = useCart();
 
   const [activeImage, setActiveImage] = useState<string | null>(null);
 
@@ -75,9 +78,8 @@ export default function ProductDetailPage() {
                     key={img}
                     type="button"
                     onClick={() => setActiveImage(img)}
-                    className={`h-20 w-20 rounded-xl border overflow-hidden bg-[#F5F7FA] flex items-center justify-center ${
-                      img === mainImage ? "border-[#F68743]" : "border-slate-200"
-                    }`}
+                    className={`h-20 w-20 rounded-xl border overflow-hidden bg-[#F5F7FA] flex items-center justify-center ${img === mainImage ? "border-[#F68743]" : "border-slate-200"
+                      }`}
                   >
                     <img src={img} alt="thumb" className="h-16 object-contain" />
                   </button>
@@ -209,7 +211,19 @@ export default function ProductDetailPage() {
                   price={1299}
                   oldPrice={1599}
                   discountPercent={19}
-                  onAddToCart={() => {}}
+                  onAddToCart={() =>
+                    addItem(
+                      {
+                        productId: `rel-${i}`,
+                        title: "Producto relacionado",
+                        brand: "Marca",
+                        imageUrl: "https://via.placeholder.com/400x400.png?text=Relacionado",
+                        price: 1299,
+                        stock: 99,
+                      },
+                      1
+                    )
+                  }
                 />
               </div>
             ))}

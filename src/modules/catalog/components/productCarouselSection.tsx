@@ -1,136 +1,88 @@
-import React, { useMemo, useRef, useState } from "react";
-import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
+import { useMemo, useState } from "react";
 import { ProductCard, type ProductCardProps } from "./productCard";
 
-export interface ProductCarouselSectionProps {
+type ProductCarouselSectionProps<T extends ProductCardProps = ProductCardProps> = {
   title: string;
-  products: ProductCardProps[];
-  /**
-   * Si se proporcionan categorías, se mostrarán tabs.
-   * Cada producto debe tener un campo `category` en `extraData` o se puede
-   * mapear externamente. Para simplificar, usamos un campo opcional aquí.
-   */
+  products: T[];
   categories?: string[];
-  getProductCategory?: (product: ProductCardProps) => string | undefined;
-  /**
-   * Si es true y hay categorías, el primer tab será "Todo".
-   */
   showAllTab?: boolean;
-}
+  getProductCategory?: (p: T) => string;
 
-export const ProductCarouselSection: React.FC<ProductCarouselSectionProps> = ({
+  onOpenProduct?: (p: T) => void;
+  onAddToCart?: (p: T) => void;
+};
+
+export function ProductCarouselSection<T extends ProductCardProps = ProductCardProps>({
   title,
   products,
   categories,
+  showAllTab = false,
   getProductCategory,
-  showAllTab = true,
-}) => {
-  const [activeCategory, setActiveCategory] = useState<string | "ALL">(
-    "ALL"
-  );
+  onOpenProduct,
+  onAddToCart,
+}: ProductCarouselSectionProps<T>) {
+  const [activeCat, setActiveCat] = useState<string>(showAllTab ? "Todo" : (categories?.[0] ?? "Todo"));
 
-  const containerRef = useRef<HTMLDivElement | null>(null);
-
-  const hasCategories = categories && categories.length > 0;
-
-  const visibleProducts = useMemo(() => {
-    if (!hasCategories || activeCategory === "ALL") return products;
-    if (!getProductCategory) return products;
-    return products.filter(
-      (p) => getProductCategory(p) === activeCategory
-    );
-  }, [activeCategory, hasCategories, products, getProductCategory]);
-
-  const scrollBy = (direction: "left" | "right") => {
-    const container = containerRef.current;
-    if (!container) return;
-    const scrollAmount = 260 * 2; // aprox 2 cards
-    container.scrollBy({
-      left: direction === "left" ? -scrollAmount : scrollAmount,
-      behavior: "smooth",
-    });
-  };
-
-  const tabBase =
-    "px-2 pb-2 text-xs sm:text-sm border-b-2 border-transparent text-slate-500 cursor-pointer";
-  const tabActive =
-    "border-[#F68743] text-[#011C40] font-semibold";
+  const filtered = useMemo(() => {
+    if (!categories?.length || !getProductCategory) return products;
+    if (showAllTab && activeCat === "Todo") return products;
+    return products.filter((p) => getProductCategory(p) === activeCat);
+  }, [products, categories, getProductCategory, activeCat, showAllTab]);
 
   return (
-    <section className="bg-[#F5F7FA] px-4 py-6">
+    <section className="bg-[#F5F7FA] px-4 py-10">
       <div className="max-w-6xl mx-auto">
-        {/* Header sección */}
-        <div className="flex items-center justify-between gap-4">
-          <div>
-            <h2 className="text-lg sm:text-xl font-bold text-[#011C40]">
-              {title}
-            </h2>
-
-            {hasCategories && (
-              <div className="mt-3 flex flex-wrap gap-4 text-xs sm:text-sm">
-                {showAllTab && (
-                  <button
-                    type="button"
-                    className={`${tabBase} ${
-                      activeCategory === "ALL" ? tabActive : ""
-                    }`}
-                    onClick={() => setActiveCategory("ALL")}
-                  >
-                    Todo
-                  </button>
-                )}
-
-                {categories!.map((cat) => (
-                  <button
-                    key={cat}
-                    type="button"
-                    className={`${tabBase} ${
-                      activeCategory === cat ? tabActive : ""
-                    }`}
-                    onClick={() => setActiveCategory(cat)}
-                  >
-                    {cat}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Flechas */}
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              className="h-8 w-8 rounded-full border border-slate-200 bg-white flex items-center justify-center hover:bg-slate-50"
-              onClick={() => scrollBy("left")}
-            >
-              <HiChevronLeft className="h-4 w-4 text-[#011C40]" />
-            </button>
-            <button
-              type="button"
-              className="h-8 w-8 rounded-full border border-slate-200 bg-white flex items-center justify-center hover:bg-slate-50"
-              onClick={() => scrollBy("right")}
-            >
-              <HiChevronRight className="h-4 w-4 text-[#011C40]" />
-            </button>
-          </div>
+        <div className="flex items-end justify-between gap-3">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#011C40]">{title}</h2>
         </div>
 
-        {/* Carrusel */}
-        <div
-          ref={containerRef}
-          className="mt-4 flex gap-4 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent"
-        >
-          {visibleProducts.map((product) => (
-            <ProductCard key={product.id} {...product} />
-          ))}
+        {/* Tabs (si aplica) */}
+        {categories?.length ? (
+          <div className="mt-4 flex items-center gap-2 overflow-x-auto pb-2">
+            {showAllTab && (
+              <button
+                type="button"
+                onClick={() => setActiveCat("Todo")}
+                className={`shrink-0 rounded-full px-4 py-2 text-xs font-semibold border transition ${
+                  activeCat === "Todo"
+                    ? "bg-[#011C40] text-white border-[#011C40]"
+                    : "bg-white text-[#011C40] border-slate-200 hover:bg-slate-50"
+                }`}
+              >
+                Todo
+              </button>
+            )}
 
-          {visibleProducts.length === 0 && (
-            <p className="text-xs text-slate-500 px-1">
-              No hay productos para esta categoría.
-            </p>
-          )}
+            {categories.map((c) => (
+              <button
+                key={c}
+                type="button"
+                onClick={() => setActiveCat(c)}
+                className={`shrink-0 rounded-full px-4 py-2 text-xs font-semibold border transition ${
+                  activeCat === c
+                    ? "bg-[#011C40] text-white border-[#011C40]"
+                    : "bg-white text-[#011C40] border-slate-200 hover:bg-slate-50"
+                }`}
+              >
+                {c}
+              </button>
+            ))}
+          </div>
+        ) : null}
+
+        {/* Carousel */}
+        <div className="mt-6 flex gap-4 overflow-x-auto pb-2">
+          {filtered.map((p) => (
+            <div key={String(p.id)} className="shrink-0">
+              <ProductCard
+                {...p}
+                onOpen={onOpenProduct ? () => onOpenProduct(p) : undefined}
+                onAddToCart={onAddToCart ? () => onAddToCart(p) : undefined}
+              />
+            </div>
+          ))}
         </div>
       </div>
     </section>
   );
-};
+}
