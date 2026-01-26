@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import { useCart } from "../hooks/useCart";
+import { useNavigate } from "react-router-dom";
 
 export default function CartPage() {
   const { state, subtotal, totalItems, setQty, removeItem, clear } = useCart();
+  const navigate = useNavigate();
 
   return (
     <div className="max-w-7xl mx-auto px-4 lg:px-6 py-8">
@@ -70,7 +72,7 @@ export default function CartPage() {
 
             <button
               className="mt-4 w-full rounded-xl bg-[#F68743] px-4 py-3 text-sm font-semibold text-white hover:bg-[#f46f1f] transition"
-              onClick={() => console.log("checkout")}
+              onClick={() => navigate("/checkout/shipping")}
             >
               Continuar a pago
             </button>
