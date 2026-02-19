@@ -1,7 +1,9 @@
 import React from "react";
 import { HiStar, HiLocationMarker } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
 
 export interface ProviderCardProps {
+  providerId: string;
   name: string;
   rating: number;
   description: string;
@@ -11,6 +13,7 @@ export interface ProviderCardProps {
 }
 
 export const ProviderCard: React.FC<ProviderCardProps> = ({
+  providerId,
   name,
   rating,
   description,
@@ -18,8 +21,9 @@ export const ProviderCard: React.FC<ProviderCardProps> = ({
   coverImage,
   avatarImage,
 }) => {
+  const navigate = useNavigate();
   return (
-    <article className="bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col">
+    <article onClick={() => navigate(`/provider/${providerId}`)} className="bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col cursor-pointer">
       {/* Portada + avatar */}
       <div className="relative h-40 w-full overflow-hidden">
         <img

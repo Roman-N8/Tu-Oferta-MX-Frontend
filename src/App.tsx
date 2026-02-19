@@ -35,6 +35,9 @@ import CheckoutReviewPage from "./modules/checkout/pages/CheckoutReviewPage";
 import CheckoutSuccessPage from "./modules/checkout/pages/CheckoutSuccessPage";
 import { CheckoutProvider } from "./modules/checkout/domain/checkoutStore";
 
+/* ===== PROVIDERS ===== */
+import ProviderProfilePage from "./modules/providers/pages/ProviderProfilePage";
+
 
 type AuthMode = "login" | "register" | null;
 
@@ -209,6 +212,22 @@ function App() {
               onClose={() => setAuthMode(null)}
               onGoToLogin={() => setAuthMode("login")}
             />
+
+            {/* ================= PROVIDERS ================= */}
+            <Routes>
+              <Route
+                path="/provider/:providerId"
+                element={
+                  <AppShell
+                    isAuthenticated={isAuthenticated}
+                    onLogin={() => setAuthMode("login")}
+                    onLogout={handleLogout}
+                  >
+                    <ProviderProfilePage />
+                  </AppShell>
+                }
+              />
+            </Routes>
           </div>
           </CheckoutProvider>
         </CartProvider>

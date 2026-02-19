@@ -20,6 +20,7 @@ import p8 from "../../../assets/products/p8.png";
 // Mock temporal
 const providersMock: ProviderCardProps[] = [
   {
+    providerId: "p1",
     name: "TechSolution MX",
     rating: 4.5,
     description:
@@ -31,6 +32,7 @@ const providersMock: ProviderCardProps[] = [
       "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=200",
   },
   {
+    providerId: "p2",
     name: "Stereo Lab",
     rating: 4.7,
     description:
@@ -42,6 +44,7 @@ const providersMock: ProviderCardProps[] = [
       "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=200",
   },
   {
+    providerId: "p3",
     name: "TechSolution MX",
     rating: 4.8,
     description:
@@ -204,7 +207,7 @@ export const HomePage: React.FC = () => {
           addItem(
             {
               productId: p.id,
-              title: p.name,       // 👈 mapeo name -> title
+              title: p.name,       
               brand: p.brand,
               imageUrl: p.imageUrl,
               price: p.price,
