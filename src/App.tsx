@@ -38,6 +38,9 @@ import { CheckoutProvider } from "./modules/checkout/domain/checkoutStore";
 /* ===== PROVIDERS ===== */
 import ProviderProfilePage from "./modules/providers/pages/ProviderProfilePage";
 
+/* ===== WISHLIST ===== */
+import { WishlistProvider } from "./modules/wishlist/domain/wishlistStore";
+import WishlistPage from "./modules/wishlist/pages/WishlistPage"
 
 type AuthMode = "login" | "register" | null;
 
@@ -56,179 +59,195 @@ function App() {
       <RegistrationProvider>
         <CartProvider>
           <CheckoutProvider>
-          <div className="min-h-screen bg-slate-50 flex flex-col">
-            <Routes>
-              {/* ================= HOME ================= */}
-              <Route
-                path="/"
-                element={
-                  <AppShell
-                    isAuthenticated={isAuthenticated}
-                    onLogin={() => setAuthMode("login")}
-                    onLogout={handleLogout}
-                  >
-                    <HomePage />
-                  </AppShell>
-                }
-              />
+            <WishlistProvider>
+              <div className="min-h-screen bg-slate-50 flex flex-col">
+                <Routes>
+                  {/* ================= HOME ================= */}
+                  <Route
+                    path="/"
+                    element={
+                      <AppShell
+                        isAuthenticated={isAuthenticated}
+                        onLogin={() => setAuthMode("login")}
+                        onLogout={handleLogout}
+                      >
+                        <HomePage />
+                      </AppShell>
+                    }
+                  />
 
-              {/* ================= CATALOG / SEARCH ================= */}
-              <Route
-                path="/catalog"
-                element={
-                  <AppShell
-                    isAuthenticated={isAuthenticated}
-                    onLogin={() => setAuthMode("login")}
-                    onLogout={handleLogout}
-                  >
-                    <SearchResultsPage />
-                  </AppShell>
-                }
-              />
+                  {/* ================= CATALOG / SEARCH ================= */}
+                  <Route
+                    path="/catalog"
+                    element={
+                      <AppShell
+                        isAuthenticated={isAuthenticated}
+                        onLogin={() => setAuthMode("login")}
+                        onLogout={handleLogout}
+                      >
+                        <SearchResultsPage />
+                      </AppShell>
+                    }
+                  />
 
-              <Route
-                path="/search"
-                element={
-                  <AppShell
-                    isAuthenticated={isAuthenticated}
-                    onLogin={() => setAuthMode("login")}
-                    onLogout={handleLogout}
-                  >
-                    <SearchResultsPage />
-                  </AppShell>
-                }
-              />
+                  <Route
+                    path="/search"
+                    element={
+                      <AppShell
+                        isAuthenticated={isAuthenticated}
+                        onLogin={() => setAuthMode("login")}
+                        onLogout={handleLogout}
+                      >
+                        <SearchResultsPage />
+                      </AppShell>
+                    }
+                  />
 
-              <Route
-                path="/category/:categoryId"
-                element={
-                  <AppShell
-                    isAuthenticated={isAuthenticated}
-                    onLogin={() => setAuthMode("login")}
-                    onLogout={handleLogout}
-                  >
-                    <SearchResultsPage />
-                  </AppShell>
-                }
-              />
+                  <Route
+                    path="/category/:categoryId"
+                    element={
+                      <AppShell
+                        isAuthenticated={isAuthenticated}
+                        onLogin={() => setAuthMode("login")}
+                        onLogout={handleLogout}
+                      >
+                        <SearchResultsPage />
+                      </AppShell>
+                    }
+                  />
 
-              {/* ================= CART ================= */}
-              <Route
-                path="/cart"
-                element={
-                  <AppShell
-                    isAuthenticated={isAuthenticated}
-                    onLogin={() => setAuthMode("login")}
-                    onLogout={handleLogout}
-                  >
-                    <CartPage />
-                  </AppShell>
-                }
-              />
+                  {/* ================= CART ================= */}
+                  <Route
+                    path="/cart"
+                    element={
+                      <AppShell
+                        isAuthenticated={isAuthenticated}
+                        onLogin={() => setAuthMode("login")}
+                        onLogout={handleLogout}
+                      >
+                        <CartPage />
+                      </AppShell>
+                    }
+                  />
 
-              {/* ================= CHECKOUT ================= */}
-              <Route
-                path="/checkout/shipping"
-                element={
-                  <AppShell isAuthenticated={isAuthenticated} onLogin={() => setAuthMode("login")} onLogout={handleLogout}>
-                    <CheckoutShippingPage />
-                  </AppShell>
-                }
-              />
+                  {/* ================= CHECKOUT ================= */}
+                  <Route
+                    path="/checkout/shipping"
+                    element={
+                      <AppShell isAuthenticated={isAuthenticated} onLogin={() => setAuthMode("login")} onLogout={handleLogout}>
+                        <CheckoutShippingPage />
+                      </AppShell>
+                    }
+                  />
 
-              <Route
-                path="/checkout/payment"
-                element={
-                  <AppShell isAuthenticated={isAuthenticated} onLogin={() => setAuthMode("login")} onLogout={handleLogout}>
-                    <CheckoutPaymentPage />
-                  </AppShell>
-                }
-              />
+                  <Route
+                    path="/checkout/payment"
+                    element={
+                      <AppShell isAuthenticated={isAuthenticated} onLogin={() => setAuthMode("login")} onLogout={handleLogout}>
+                        <CheckoutPaymentPage />
+                      </AppShell>
+                    }
+                  />
 
-              <Route
-                path="/checkout/review"
-                element={
-                  <AppShell isAuthenticated={isAuthenticated} onLogin={() => setAuthMode("login")} onLogout={handleLogout}>
-                    <CheckoutReviewPage />
-                  </AppShell>
-                }
-              />
+                  <Route
+                    path="/checkout/review"
+                    element={
+                      <AppShell isAuthenticated={isAuthenticated} onLogin={() => setAuthMode("login")} onLogout={handleLogout}>
+                        <CheckoutReviewPage />
+                      </AppShell>
+                    }
+                  />
 
-              <Route
-                path="/checkout/success"
-                element={
-                  <AppShell isAuthenticated={isAuthenticated} onLogin={() => setAuthMode("login")} onLogout={handleLogout}>
-                    <CheckoutSuccessPage />
-                  </AppShell>
-                }
-              />
+                  <Route
+                    path="/checkout/success"
+                    element={
+                      <AppShell isAuthenticated={isAuthenticated} onLogin={() => setAuthMode("login")} onLogout={handleLogout}>
+                        <CheckoutSuccessPage />
+                      </AppShell>
+                    }
+                  />
 
-              {/* ================= PRODUCT DETAIL ================= */}
-              <Route
-                path="/product/:productId"
-                element={
-                  <AppShell
-                    isAuthenticated={isAuthenticated}
-                    onLogin={() => setAuthMode("login")}
-                    onLogout={handleLogout}
-                  >
-                    <ProductDetailPage />
-                  </AppShell>
-                }
-              />
+                  {/* ================= PRODUCT DETAIL ================= */}
+                  <Route
+                    path="/product/:productId"
+                    element={
+                      <AppShell
+                        isAuthenticated={isAuthenticated}
+                        onLogin={() => setAuthMode("login")}
+                        onLogout={handleLogout}
+                      >
+                        <ProductDetailPage />
+                      </AppShell>
+                    }
+                  />
 
-              {/* ================= IDENTITY ================= */}
-              <Route path="/auth/verify-email" element={<VerifyEmailPage />} />
-              <Route path="/auth/complete-account" element={<CompleteAccountPage />} />
-              <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
-              <Route path="/auth/link-sent" element={<LinkSentMessage />} />
-              <Route path="/auth/password-reset" element={<PasswordResetPage />} />
+                  {/* ================= WISHLIST ================= */}
+                  <Route
+                    path="/wishlist"
+                    element={
+                      <AppShell
+                        isAuthenticated={isAuthenticated}
+                        onLogin={() => setAuthMode("login")}
+                        onLogout={handleLogout}
+                      >
+                        <WishlistPage />
+                      </AppShell>
+                    }
+                  />
 
-              {/* ================= ACCOUNT ================= */}
-              <Route
-                path="/account/settings"
-                element={
-                  <AppShell
-                    isAuthenticated={isAuthenticated}
-                    onLogin={() => setAuthMode("login")}
-                    onLogout={handleLogout}
-                  >
-                    <AccountSettingsPage />
-                  </AppShell>
-                }
-              />
-            </Routes>
+                  {/* ================= IDENTITY ================= */}
+                  <Route path="/auth/verify-email" element={<VerifyEmailPage />} />
+                  <Route path="/auth/complete-account" element={<CompleteAccountPage />} />
+                  <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
+                  <Route path="/auth/link-sent" element={<LinkSentMessage />} />
+                  <Route path="/auth/password-reset" element={<PasswordResetPage />} />
 
-            {/* ================= MODALS ================= */}
-            <LoginModal
-              open={authMode === "login"}
-              onClose={() => setAuthMode(null)}
-              onGoToRegister={() => setAuthMode("register")}
-              onLoggedIn={() => setIsAuthenticated(true)}
-            />
+                  {/* ================= ACCOUNT ================= */}
+                  <Route
+                    path="/account/settings"
+                    element={
+                      <AppShell
+                        isAuthenticated={isAuthenticated}
+                        onLogin={() => setAuthMode("login")}
+                        onLogout={handleLogout}
+                      >
+                        <AccountSettingsPage />
+                      </AppShell>
+                    }
+                  />
+                </Routes>
 
-            <RegisterModal
-              open={authMode === "register"}
-              onClose={() => setAuthMode(null)}
-              onGoToLogin={() => setAuthMode("login")}
-            />
+                {/* ================= MODALS ================= */}
+                <LoginModal
+                  open={authMode === "login"}
+                  onClose={() => setAuthMode(null)}
+                  onGoToRegister={() => setAuthMode("register")}
+                  onLoggedIn={() => setIsAuthenticated(true)}
+                />
 
-            {/* ================= PROVIDERS ================= */}
-            <Routes>
-              <Route
-                path="/provider/:providerId"
-                element={
-                  <AppShell
-                    isAuthenticated={isAuthenticated}
-                    onLogin={() => setAuthMode("login")}
-                    onLogout={handleLogout}
-                  >
-                    <ProviderProfilePage />
-                  </AppShell>
-                }
-              />
-            </Routes>
-          </div>
+                <RegisterModal
+                  open={authMode === "register"}
+                  onClose={() => setAuthMode(null)}
+                  onGoToLogin={() => setAuthMode("login")}
+                />
+
+                {/* ================= PROVIDERS ================= */}
+                <Routes>
+                  <Route
+                    path="/provider/:providerId"
+                    element={
+                      <AppShell
+                        isAuthenticated={isAuthenticated}
+                        onLogin={() => setAuthMode("login")}
+                        onLogout={handleLogout}
+                      >
+                        <ProviderProfilePage />
+                      </AppShell>
+                    }
+                  />
+                </Routes>
+              </div>
+            </WishlistProvider>
           </CheckoutProvider>
         </CartProvider>
       </RegistrationProvider>

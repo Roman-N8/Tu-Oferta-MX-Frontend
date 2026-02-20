@@ -6,6 +6,8 @@ import { ProductCarouselSection } from "../../catalog/components/productCarousel
 import { type ProductCardProps } from "../../catalog/components/productCard";
 
 import { useCart } from "../../cart/hooks/useCart";
+import { useWishlist } from "../../wishlist/hooks/useWishlist"
+
 import { useNavigate } from "react-router-dom";
 
 import p1 from "../../../assets/products/p1.png";
@@ -145,6 +147,7 @@ const bestSellersMock: (ProductCardProps & { category: string })[] = [
 export const HomePage: React.FC = () => {
   const { addItem } = useCart();
   const navigate = useNavigate();
+  const { toggle, has } = useWishlist();
   return (
     <>
       {/* HERO */}
@@ -207,13 +210,24 @@ export const HomePage: React.FC = () => {
           addItem(
             {
               productId: p.id,
-              title: p.name,       
+              title: p.name,
               brand: p.brand,
               imageUrl: p.imageUrl,
               price: p.price,
             },
             1
           )
+        }
+
+        isWishlisted={(p) => has(p.id)}
+        onToggleWishlist={(p) =>
+          toggle({
+            productId: p.id,
+            title: p.name,
+            brand: p.brand,
+            imageUrl: p.imageUrl,
+            price: p.price,
+          })
         }
       />
 
@@ -234,6 +248,17 @@ export const HomePage: React.FC = () => {
             1
           )
         }
+
+        isWishlisted={(p) => has(p.id)}
+        onToggleWishlist={(p) =>
+          toggle({
+            productId: p.id,
+            title: p.name,
+            brand: p.brand,
+            imageUrl: p.imageUrl,
+            price: p.price,
+          })
+        }
       />
 
 
@@ -253,6 +278,17 @@ export const HomePage: React.FC = () => {
             },
             1
           )
+        }
+
+        isWishlisted={(p) => has(p.id)}
+        onToggleWishlist={(p) =>
+          toggle({
+            productId: p.id,
+            title: p.name,
+            brand: p.brand,
+            imageUrl: p.imageUrl,
+            price: p.price,
+          })
         }
       />
 

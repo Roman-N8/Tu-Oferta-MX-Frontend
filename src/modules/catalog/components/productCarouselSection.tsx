@@ -10,6 +10,10 @@ type ProductCarouselSectionProps<T extends ProductCardProps = ProductCardProps> 
 
   onOpenProduct?: (p: T) => void;
   onAddToCart?: (p: T) => void;
+
+  // ✅ NUEVO: Wishlist (sin hooks aquí)
+  isWishlisted?: (p: T) => boolean;
+  onToggleWishlist?: (p: T) => void;
 };
 
 export function ProductCarouselSection<T extends ProductCardProps = ProductCardProps>({
@@ -20,8 +24,12 @@ export function ProductCarouselSection<T extends ProductCardProps = ProductCardP
   getProductCategory,
   onOpenProduct,
   onAddToCart,
+  isWishlisted,
+  onToggleWishlist,
 }: ProductCarouselSectionProps<T>) {
-  const [activeCat, setActiveCat] = useState<string>(showAllTab ? "Todo" : (categories?.[0] ?? "Todo"));
+  const [activeCat, setActiveCat] = useState<string>(
+    showAllTab ? "Todo" : (categories?.[0] ?? "Todo")
+  );
 
   const filtered = useMemo(() => {
     if (!categories?.length || !getProductCategory) return products;
@@ -33,7 +41,9 @@ export function ProductCarouselSection<T extends ProductCardProps = ProductCardP
     <section className="bg-[#F5F7FA] px-4 py-10">
       <div className="max-w-6xl mx-auto">
         <div className="flex items-end justify-between gap-3">
-          <h2 className="text-xl sm:text-2xl font-bold text-[#011C40]">{title}</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-[#011C40]">
+            {title}
+          </h2>
         </div>
 
         {/* Tabs (si aplica) */}
@@ -78,6 +88,10 @@ export function ProductCarouselSection<T extends ProductCardProps = ProductCardP
                 {...p}
                 onOpen={onOpenProduct ? () => onOpenProduct(p) : undefined}
                 onAddToCart={onAddToCart ? () => onAddToCart(p) : undefined}
+                isWishlisted={isWishlisted ? isWishlisted(p) : undefined}
+                onToggleWishlist={
+                  onToggleWishlist ? () => onToggleWishlist(p) : undefined
+                }
               />
             </div>
           ))}

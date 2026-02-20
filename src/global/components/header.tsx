@@ -8,9 +8,14 @@ import {
   HiOutlineMenu,
   HiOutlineChevronDown,
 } from "react-icons/hi";
+
+import { LuHeart } from "react-icons/lu";
+
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 import { useCart } from "../../modules/cart/hooks/useCart";
+
+import { useWishlist } from "../../modules/wishlist/hooks/useWishlist"
 
 interface HeaderProps {
   onLoginClick: () => void;
@@ -38,8 +43,9 @@ export const Header: React.FC<HeaderProps> = ({
 
   const { totalItems } = useCart();
 
+  const { count } = useWishlist();
+
   React.useEffect(() => {
-    // Si estamos en /search, mantener input sincronizado con ?q=
     if (location.pathname === "/search") {
       setQuery(qFromUrl);
     }
@@ -48,7 +54,6 @@ export const Header: React.FC<HeaderProps> = ({
   function goSearch() {
     const trimmed = query.trim();
 
-    // Si está vacío, te manda al catálogo general
     if (!trimmed) {
       navigate("/catalog");
       return;
@@ -149,12 +154,18 @@ export const Header: React.FC<HeaderProps> = ({
                   >
                     Configuración de perfil
                   </Link>
-                  <button
-                    type="button"
+                  <Link
+                    to="/wishlist"
                     className="block w-full text-left px-4 py-2 hover:bg-slate-50 text-[#011C40]"
                   >
+                    <LuHeart className="inline mr-2" />
+                    {count > 0 && (
+                      <span className="absolute -top-1 -right-2 bg-[#F68743] text-white text-[10px] font-bold rounded-full h-4 min-w-4 px-1 flex items-center justify-center">
+                        {count}
+                      </span>
+                    )}
                     Wishlist
-                  </button>
+                  </Link>
                   <button
                     type="button"
                     className="block w-full text-left px-4 py-2 hover:bg-slate-50 text-red-600"
