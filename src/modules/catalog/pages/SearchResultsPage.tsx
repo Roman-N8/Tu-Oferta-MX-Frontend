@@ -9,6 +9,8 @@ import { ProductCard } from "../components/productCard";
 
 import { useCart } from "../../cart/hooks/useCart";
 
+import { useWishlist } from "../../wishlist/hooks/useWishlist"
+
 const PAGE_SIZE = 12;
 
 function asNumber(v: string | null): number | undefined {
@@ -27,6 +29,8 @@ export default function SearchResultsPage() {
   const sort = (params.get("sort") as SortKey) ?? "relevance";
   const view = (params.get("view") as ViewMode) ?? "grid";
   const page = Math.max(1, Number(params.get("page") ?? "1"));
+
+  const { has, toggle } = useWishlist();
 
   const { addItem } = useCart();
 
@@ -148,6 +152,17 @@ export default function SearchResultsPage() {
                               },
                               1
                             )
+                          }
+
+                          isWishlisted={has(p.productId)}
+                          onToggleWishlist={() =>
+                            toggle({
+                              productId: p.productId,
+                              title: p.title,
+                              brand: p.brand,
+                              imageUrl: p.imageUrl,
+                              price: p.price,
+                            })
                           }
                         />
                       ))}

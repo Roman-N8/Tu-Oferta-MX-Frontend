@@ -7,6 +7,7 @@ export default function WishlistPage() {
   const navigate = useNavigate();
   const { state, clear } = useWishlist();
   const { addItem } = useCart();
+  const { toggle, has } = useWishlist();
 
   return (
     <div className="max-w-7xl mx-auto px-4 lg:px-6 py-8">
@@ -51,6 +52,16 @@ export default function WishlistPage() {
                   },
                   1
                 )
+              }
+              isWishlisted={has(p.productId)}
+              onToggleWishlist={() =>
+                toggle({
+                  productId: p.productId,
+                  title: p.title,
+                  brand: p.brand,
+                  imageUrl: p.imageUrl,
+                  price: p.price,
+                })
               }
             />
           ))}

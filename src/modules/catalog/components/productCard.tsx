@@ -1,5 +1,7 @@
 import React from "react";
 import { HiStar } from "react-icons/hi";
+import { LuHeart } from "react-icons/lu";
+import { HiHeart } from "react-icons/hi";
 
 export interface ProductCardProps {
   id: string | number;
@@ -77,7 +79,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       <div className="relative flex items-center justify-center bg-[#F5F7FA] h-40">
         <img src={imageUrl} alt={name} className="h-32 object-contain" />
 
-        {/* Wishlist (✅ debe ir DENTRO del relative) */}
+        {/* Wishlist */}
         {onToggleWishlist && (
           <button
             type="button"
@@ -85,7 +87,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             className="absolute right-3 top-3 rounded-full bg-white/90 border border-slate-200 h-9 w-9 flex items-center justify-center hover:bg-white transition"
             aria-label={isWishlisted ? "Quitar de wishlist" : "Guardar en wishlist"}
           >
-            {isWishlisted ? "❤️" : "🤍"}
+            {isWishlisted ? <HiHeart className="h-5 w-5 text-red-500 solid" /> : <LuHeart className="h-5 w-5 text-slate-400" />}
           </button>
         )}
 
