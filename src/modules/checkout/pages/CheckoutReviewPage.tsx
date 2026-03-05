@@ -3,11 +3,13 @@ import CheckoutSteps from "../components/CheckoutSteps";
 import OrderSummaryCard from "../components/OrderSummaryCard";
 import { useCheckout } from "../hooks/useCheckout";
 import { useCart } from "../../cart/hooks/useCart";
+import { useOrders } from "../../orders/hooks/useOrders";
 
 export default function CheckoutReviewPage() {
   const navigate = useNavigate();
   const { state } = useCheckout();
   const { state: cart, clear } = useCart();
+  const { createOrder } = useOrders();
 
   if (!state.shipping) {
     navigate("/checkout/shipping");
@@ -19,9 +21,32 @@ export default function CheckoutReviewPage() {
   }
 
   function payMock() {
-    // Simula pago ok
     clear();
-    navigate("/checkout/success");
+    const id = createOrder({
+      number: `ORD-${Date.now()}`,
+      date: new Date().toISOString(),
+      total: cart.items.reduce((sum, i) => sum + i.price * i.quantity, 0),
+      status: "paid",
+      customerEmail: "romanch422@gmail.com",
+      trackingCode: "TRK-" + Date.now(),
+      items: cart.items.map((item) => ({
+        ...item,
+        productId: String(item.productId),
+      })),
+      shippingAddress:{
+        fullName: "Roman",
+        addressLine: "Calle Falsa 123",
+        city: "Ciudad de México",
+        postalCode: "12345",
+        country: "México"
+      },
+      paymentInfo:{
+        method: "Card",
+        last4: "2341"
+      }
+    });
+    navigate(`/orders/${id}`);
+
   }
 
   return (
@@ -95,7 +120,7 @@ export default function CheckoutReviewPage() {
               onClick={payMock}
               className="mt-5 w-full rounded-xl bg-[#F68743] px-4 py-3 text-sm font-semibold text-white hover:bg-[#f46f1f] transition"
             >
-              Pagar (mock)
+              Pagar
             </button>
           </div>
         </div>

@@ -102,7 +102,7 @@ export const Header: React.FC<HeaderProps> = ({
         {/* DERECHA: menú superior */}
         <nav className="flex w-full sm:w-auto items-center justify-between sm:justify-end gap-3 sm:gap-6">
           {/* Ordenes */}
-          <button className={navItemBase} type="button">
+          <button className={navItemBase} type="button" onClick={() => navigate("/orders")}>
             <HiOutlineClipboardList className="h-5 w-5 text-[#011C40]" />
             <span className="hidden xs:inline">Ordenes</span>
           </button>
