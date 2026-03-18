@@ -13,12 +13,12 @@ export interface LoginResponse {
   };
 }
 
-const API_URL = import.meta.env.VITE_API_URL ?? "http://127.0.0.1:8000/";
+const API_URL = import.meta.env.VITE_API_URL ?? "http://127.0.0.1:8000/api/v1/";
 
 export async function loginRequest(
   payload: LoginPayload
 ): Promise<LoginResponse> {
-  const res = await fetch(`${API_URL}api/identity/auth/login/`, {
+  const res = await fetch(`${API_URL}identity/auth/login/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -50,7 +50,7 @@ export interface RegisterResponse {
 export async function registerRequest(
   payload: RegisterPayload
 ): Promise<RegisterResponse> {
-  const res = await fetch(`${API_URL}api/identity/auth/initiate-registration/`, {
+  const res = await fetch(`${API_URL}identity/auth/initiate-registration/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -81,7 +81,7 @@ export interface VerifyEmailPayload {
 export async function verifyEmailCode(
   payload: VerifyEmailPayload
 ): Promise<{ message: string }> {
-  const res = await fetch(`${API_URL}api/identity/auth/verify-code/`, {
+  const res = await fetch(`${API_URL}identity/auth/verify-code/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
@@ -96,7 +96,7 @@ export async function verifyEmailCode(
 }
 
 export async function resendVerificationCode(email: string): Promise<{ message: string }> {
-  const res = await fetch(`${API_URL}api/identity/auth/resend-verification-code/`, {
+  const res = await fetch(`${API_URL}identity/auth/resend-verification-code/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email }),
@@ -129,7 +129,7 @@ export interface TokensResponse {
 export async function completeRegistration(
   payload: CompleteRegistrationPayload
 ): Promise<TokensResponse> {
-  const res = await fetch(`${API_URL}api/identity/auth/complete-registration/`, {
+  const res = await fetch(`${API_URL}identity/auth/complete-registration/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),

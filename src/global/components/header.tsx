@@ -7,6 +7,7 @@ import {
   HiOutlineUser,
   HiOutlineMenu,
   HiOutlineChevronDown,
+  HiOutlineOfficeBuilding,
 } from "react-icons/hi";
 
 import { LuHeart } from "react-icons/lu";
@@ -184,7 +185,7 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       {/* BARRA DE CATEGORÍAS */}
-      <div className="border-t border-slate-200 px-4 sm:px-6 py-2">
+      <div className="flex items-center justify-between border-t border-slate-200 px-4 sm:px-6 py-2">
         <button
           type="button"
           onClick={() => navigate("/catalog")}
@@ -194,6 +195,16 @@ export const Header: React.FC<HeaderProps> = ({
           <span className="font-medium">Todas las categorías</span>
           <HiOutlineChevronDown className="h-4 w-4 text-[#011C40]" />
         </button>
+
+        <a
+          href="http://localhost:5174"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-md border border-[#F68743] px-3 py-1 text-xs sm:text-sm font-medium text-[#F68743] hover:bg-[#F68743] hover:text-white transition-colors"
+        >
+          <HiOutlineOfficeBuilding className="h-4 w-4" />
+          Portal de Proveedores
+        </a>
       </div>
     </header>
   );

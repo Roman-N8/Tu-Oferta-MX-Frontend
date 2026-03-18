@@ -1,7 +1,8 @@
 import React from "react";
 import heroBg from "../../../assets/Background blur.png";
 import { HiOutlineChevronDown } from "react-icons/hi";
-import { ProviderCard, type ProviderCardProps } from "../../providers/components/providerCard";
+import { ProviderCard } from "../../providers/components/providerCard";
+import { PROVIDERS_MOCK } from "../../providers/domain/mock/providers.mock";
 import { ProductCarouselSection } from "../../catalog/components/productCarouselSection";
 import { type ProductCardProps } from "../../catalog/components/productCard";
 
@@ -19,45 +20,16 @@ import p6 from "../../../assets/products/p6.png";
 import p7 from "../../../assets/products/p7.png";
 import p8 from "../../../assets/products/p8.png";
 
-// Mock temporal
-const providersMock: ProviderCardProps[] = [
-  {
-    providerId: "p1",
-    name: "TechSolution MX",
-    rating: 4.5,
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    location: "Zapopan, Jalisco",
-    coverImage:
-      "https://images.pexels.com/photos/3747481/pexels-photo-3747481.jpeg?auto=compress&cs=tinysrgb&w=800",
-    avatarImage:
-      "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=200",
-  },
-  {
-    providerId: "p2",
-    name: "Stereo Lab",
-    rating: 4.7,
-    description:
-      "Enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    location: "Guadalajara, Jalisco",
-    coverImage:
-      "https://images.pexels.com/photos/3945662/pexels-photo-3945662.jpeg?auto=compress&cs=tinysrgb&w=800",
-    avatarImage:
-      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=200",
-  },
-  {
-    providerId: "p3",
-    name: "TechSolution MX",
-    rating: 4.8,
-    description:
-      "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    location: "Zapopan, Jalisco",
-    coverImage:
-      "https://images.pexels.com/photos/3747481/pexels-photo-3747481.jpeg?auto=compress&cs=tinysrgb&w=800",
-    avatarImage:
-      "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=200",
-  },
-];
+// Mapear datos del mock de proveedores al formato de ProviderCard
+const providersForCards = PROVIDERS_MOCK.slice(0, 3).map((p) => ({
+  providerId: String(p.id),
+  name: p.name,
+  rating: p.rating,
+  description: p.description,
+  location: p.location ?? "",
+  coverImage: p.coverImageUrl,
+  avatarImage: p.avatarImageUrl,
+}));
 
 const bestSellersMock: (ProductCardProps & { category: string })[] = [
   {
@@ -191,8 +163,8 @@ export const HomePage: React.FC = () => {
           </h2>
 
           <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {providersMock.map((provider, idx) => (
-              <ProviderCard key={idx} {...provider} />
+            {providersForCards.map((provider) => (
+              <ProviderCard key={provider.providerId} {...provider} />
             ))}
           </div>
         </div>

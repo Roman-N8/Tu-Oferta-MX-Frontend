@@ -23,17 +23,19 @@ export const ProviderCard: React.FC<ProviderCardProps> = ({
 }) => {
   const navigate = useNavigate();
   return (
-    <article onClick={() => navigate(`/provider/${providerId}`)} className="bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col cursor-pointer">
+    <article onClick={() => navigate(`/provider/${providerId}`)} className="bg-white rounded-2xl shadow-sm flex flex-col cursor-pointer">
       {/* Portada + avatar */}
-      <div className="relative h-40 w-full overflow-hidden">
-        <img
-          src={coverImage}
-          alt={`Portada de ${name}`}
-          className="h-full w-full object-cover"
-        />
+      <div className="relative mb-6">
+        <div className="h-40 w-full overflow-hidden rounded-t-2xl">
+          <img
+            src={coverImage}
+            alt={`Portada de ${name}`}
+            className="h-full w-full object-cover"
+          />
+        </div>
 
         {avatarImage && (
-          <div className="absolute -bottom-6 left-4 h-12 w-12 rounded-md bg-slate-100 overflow-hidden shadow-md border border-white">
+          <div className="absolute -bottom-6 left-4 h-12 w-12 rounded-md bg-slate-100 overflow-hidden shadow-md border-2 border-white">
             <img
               src={avatarImage}
               alt={`Logo de ${name}`}
