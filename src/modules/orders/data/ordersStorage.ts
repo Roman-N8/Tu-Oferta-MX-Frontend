@@ -1,6 +1,8 @@
-import type { OrdersState } from "../domain/order.types";
+import type { Order } from "../domain/order.types";
 
 const KEY = "tuoferta_orders_v1";
+
+type OrdersState = { orders: Order[] };
 
 export function loadOrders(): OrdersState {
   try {
