@@ -132,7 +132,7 @@ function App() {
                           onLogin={() => setAuthMode("login")}
                           onLogout={handleLogout}
                         >
-                          <CartPage />
+                          <CartPage isAuthenticated={isAuthenticated} onLoginClick={() => setAuthMode("login")} />
                         </AppShell>
                       }
                     />

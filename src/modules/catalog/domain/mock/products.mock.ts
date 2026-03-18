@@ -1,30 +1,299 @@
 import type { Product } from "../types";
 
-export const PRODUCTS: Product[] = Array.from({ length: 48 }).map((_, i) => {
-  const categoryId = ["c1", "c2", "c3", "c4"][i % 4];
-  const price = [1500, 4500, 999, 2300][i % 4];
+import p1 from "../../../../assets/products/p1.png";
+import p2 from "../../../../assets/products/p2.png";
+import p3 from "../../../../assets/products/p3.png";
+import p4 from "../../../../assets/products/p4.png";
+import p5 from "../../../../assets/products/p5.png";
+import p6 from "../../../../assets/products/p6.png";
+import p7 from "../../../../assets/products/p7.png";
+import p8 from "../../../../assets/products/p8.png";
+import p9 from "../../../../assets/products/p9.png";
+import p10 from "../../../../assets/products/p10.png";
+import p11 from "../../../../assets/products/p11.png";
+import p12 from "../../../../assets/products/p12.png";
+import p13 from "../../../../assets/products/p13.png";
 
-  return {
-    id: `p${i + 1}`,
-    title: `Producto ${i + 1} - Ejemplo para Tu Oferta MX`,
-    price,
-    oldPrice: i % 5 === 0 ? price + 500 : undefined,
-    rating: (i % 5) + 1,
-    reviewsCount: 5 + (i % 40),
-    imageUrl: "https://via.placeholder.com/400x400.png?text=Producto",
-    categoryId,
-    brand: ["Logitech", "TP-Link", "Asus", "AMD"][i % 4],
-    stock: i % 7 === 0 ? 0 : 10 + (i % 20),
-    images: [
-      "https://via.placeholder.com/600x600.png?text=Foto+1",
-      "https://via.placeholder.com/600x600.png?text=Foto+2",
-      "https://via.placeholder.com/600x600.png?text=Foto+3",
-    ],
-    description: "Descripción de ejemplo del producto para pruebas del detalle.",
+export const PRODUCTS: Product[] = [
+  {
+    id: "p1",
+    title: "Laptop Profesional 14\" Intel Core i5, 8GB RAM, 256GB SSD",
+    price: 15999,
+    oldPrice: 18499,
+    rating: 4,
+    reviewsCount: 24,
+    imageUrl: p1,
+    images: [p1],
+    categoryId: "c2",
+    brand: "HP",
+    stock: 12,
+    description:
+      "Laptop profesional de 14 pulgadas con procesador Intel Core i5 de última generación, 8GB de memoria RAM DDR4 y disco de estado sólido de 256GB. Diseño delgado y ligero ideal para productividad en la oficina y trabajo remoto. Incluye Wi-Fi 6 y puerto USB-C.",
     specs: [
-      { label: "Modelo", value: "MX-123" },
-      { label: "Color", value: "Negro" },
-      { label: "Conectividad", value: "Bluetooth" },
+      { label: "Procesador", value: "Intel Core i5-1235U" },
+      { label: "RAM", value: "8 GB DDR4" },
+      { label: "Almacenamiento", value: "256 GB SSD NVMe" },
+      { label: "Pantalla", value: '14" Full HD IPS' },
+      { label: "Conectividad", value: "Wi-Fi 6, Bluetooth 5.2" },
     ],
-  };
-});
+  },
+  {
+    id: "p2",
+    title: "Cámara Domo de Seguridad Wi-Fi 2K con Visión Nocturna",
+    price: 1299,
+    oldPrice: 1699,
+    rating: 5,
+    reviewsCount: 18,
+    imageUrl: p2,
+    images: [p2],
+    categoryId: "c3",
+    brand: "TP-Link",
+    stock: 30,
+    description:
+      "Cámara de seguridad tipo domo con resolución 2K, visión nocturna infrarroja y detección de movimiento inteligente. Conexión Wi-Fi para monitoreo remoto desde la app. Resistente a interiores con audio bidireccional y ranura para tarjeta microSD.",
+    specs: [
+      { label: "Resolución", value: "2K (2304×1296)" },
+      { label: "Visión nocturna", value: "Hasta 10 metros" },
+      { label: "Conectividad", value: "Wi-Fi 2.4 GHz" },
+      { label: "Almacenamiento", value: "microSD hasta 256 GB" },
+      { label: "Audio", value: "Bidireccional" },
+    ],
+  },
+  {
+    id: "p3",
+    title: "Silla Ejecutiva Ergonómica de Malla con Soporte Lumbar",
+    price: 3499,
+    oldPrice: 4299,
+    rating: 4,
+    reviewsCount: 9,
+    imageUrl: p3,
+    images: [p3],
+    categoryId: "c1",
+    brand: "Steren",
+    stock: 8,
+    description:
+      "Silla ejecutiva ergonómica con respaldo de malla transpirable y soporte lumbar ajustable. Reposabrazos regulables en altura, mecanismo de reclinación y base de nylon con ruedas de goma silenciosas. Ideal para largas jornadas de trabajo en oficina.",
+    specs: [
+      { label: "Material respaldo", value: "Malla transpirable" },
+      { label: "Soporte lumbar", value: "Ajustable" },
+      { label: "Reposabrazos", value: "Regulables en altura" },
+      { label: "Peso máximo", value: "120 kg" },
+      { label: "Base", value: "Nylon con ruedas de goma" },
+    ],
+  },
+  {
+    id: "p4",
+    title: "Bobina de Cable UTP Cat6 para Interior, 305 Metros",
+    price: 2150,
+    rating: 4,
+    reviewsCount: 14,
+    imageUrl: p4,
+    images: [p4],
+    categoryId: "c3",
+    brand: "Panduit",
+    stock: 20,
+    description:
+      "Bobina de cable UTP categoría 6 de 305 metros para uso en interiores. Conductor de cobre sólido calibre 23 AWG con cubierta de PVC retardante de flama. Soporta velocidades de hasta 1 Gbps y es compatible con instalaciones de redes estructuradas.",
+    specs: [
+      { label: "Categoría", value: "Cat6" },
+      { label: "Longitud", value: "305 metros" },
+      { label: "Conductor", value: "Cobre sólido 23 AWG" },
+      { label: "Velocidad máx.", value: "1 Gbps" },
+      { label: "Uso", value: "Interior" },
+    ],
+  },
+  {
+    id: "p5",
+    title: 'Smartphone 6.5" 128GB, Cámara 50MP, Batería 5000mAh',
+    price: 5999,
+    oldPrice: 7499,
+    rating: 4,
+    reviewsCount: 31,
+    imageUrl: p5,
+    images: [p5],
+    categoryId: "c2",
+    brand: "Samsung",
+    stock: 15,
+    description:
+      'Smartphone con pantalla AMOLED de 6.5 pulgadas, 128GB de almacenamiento interno y cámara principal de 50MP. Batería de 5000mAh con carga rápida de 25W. Procesador octa-core, 6GB de RAM y sistema operativo Android 14.',
+    specs: [
+      { label: "Pantalla", value: '6.5" Super AMOLED' },
+      { label: "Almacenamiento", value: "128 GB" },
+      { label: "Cámara", value: "50 MP principal" },
+      { label: "Batería", value: "5,000 mAh" },
+      { label: "RAM", value: "6 GB" },
+    ],
+  },
+  {
+    id: "p6",
+    title: "Tarjeta Madre Asus Prime B550M-A AC, AMD AM4, mATX",
+    price: 4500,
+    rating: 5,
+    reviewsCount: 7,
+    imageUrl: p6,
+    images: [p6],
+    categoryId: "c2",
+    brand: "Asus",
+    stock: 10,
+    description:
+      "Tarjeta madre Asus Prime B550M-A con chipset AMD B550 en formato Micro-ATX. Compatible con procesadores AMD Ryzen de 3ra y 5ta generación. Incluye Wi-Fi AC integrado, soporte para PCIe 4.0, memoria DDR4 hasta 128GB y conectividad USB 3.2.",
+    specs: [
+      { label: "Chipset", value: "AMD B550" },
+      { label: "Socket", value: "AM4" },
+      { label: "Formato", value: "Micro-ATX" },
+      { label: "RAM máx.", value: "128 GB DDR4" },
+      { label: "Wi-Fi", value: "AC integrado" },
+    ],
+  },
+  {
+    id: "p7",
+    title: "Mouse Inalámbrico M185, Diseño Ergonómico Compacto",
+    price: 349,
+    oldPrice: 499,
+    rating: 5,
+    reviewsCount: 42,
+    imageUrl: p7,
+    images: [p7],
+    categoryId: "c1",
+    brand: "Logitech",
+    stock: 50,
+    description:
+      "Mouse inalámbrico Logitech M185 con diseño ergonómico compacto y receptor nano USB plug-and-play. Sensor óptico de alta precisión, alcance inalámbrico de hasta 10 metros y hasta 12 meses de duración de batería. Compatible con Windows, macOS y Chrome OS.",
+    specs: [
+      { label: "Conectividad", value: "Inalámbrico 2.4 GHz" },
+      { label: "Sensor", value: "Óptico 1000 DPI" },
+      { label: "Batería", value: "1x AA (hasta 12 meses)" },
+      { label: "Alcance", value: "10 metros" },
+      { label: "Peso", value: "75 g" },
+    ],
+  },
+  {
+    id: "p8",
+    title: "Bobina de Cable UTP Cat6 QIAN, 100 Metros para Interior",
+    price: 450,
+    rating: 4,
+    reviewsCount: 11,
+    imageUrl: p8,
+    images: [p8],
+    categoryId: "c3",
+    brand: "QIAN",
+    stock: 35,
+    description:
+      "Bobina de cable UTP categoría 6 marca QIAN de 100 metros para instalaciones en interiores. Conductor de cobre con cubierta de PVC gris. Soporta frecuencias de hasta 250 MHz y velocidades de transmisión de 1 Gbps. Ideal para redes de oficina y hogar.",
+    specs: [
+      { label: "Categoría", value: "Cat6" },
+      { label: "Longitud", value: "100 metros" },
+      { label: "Frecuencia", value: "250 MHz" },
+      { label: "Velocidad máx.", value: "1 Gbps" },
+      { label: "Color", value: "Gris" },
+    ],
+  },
+  {
+    id: "p9",
+    title: "Teclado Mecánico Full Size USB, Switches Blue, Retroiluminado",
+    price: 1299,
+    oldPrice: 1599,
+    rating: 4,
+    reviewsCount: 19,
+    imageUrl: p9,
+    images: [p9],
+    categoryId: "c1",
+    brand: "Logitech",
+    stock: 22,
+    description:
+      "Teclado mecánico de tamaño completo con switches tipo Blue para retroalimentación táctil y auditiva. Retroiluminación LED, construcción robusta con placa de aluminio y cable USB trenzado. Layout en español latinoamericano con tecla Ñ.",
+    specs: [
+      { label: "Tipo de switch", value: "Blue (clicky)" },
+      { label: "Layout", value: "Español Latinoamericano" },
+      { label: "Conexión", value: "USB con cable trenzado" },
+      { label: "Retroiluminación", value: "LED blanca" },
+      { label: "Anti-ghosting", value: "N-Key Rollover" },
+    ],
+  },
+  {
+    id: "p10",
+    title: "Hub USB 3.0 de 3 Puertos con Adaptador Ethernet RJ45",
+    price: 599,
+    oldPrice: 799,
+    rating: 4,
+    reviewsCount: 8,
+    imageUrl: p10,
+    images: [p10],
+    categoryId: "c3",
+    brand: "TP-Link",
+    stock: 18,
+    description:
+      "Hub USB 3.0 de aluminio con 3 puertos USB de alta velocidad y un puerto Ethernet RJ45 Gigabit. Diseño compacto y portátil, ideal para laptops que necesitan más conectividad. Compatible con Windows, macOS y Linux sin necesidad de drivers.",
+    specs: [
+      { label: "Puertos USB", value: "3x USB 3.0" },
+      { label: "Puerto de red", value: "1x RJ45 Gigabit" },
+      { label: "Material", value: "Aluminio" },
+      { label: "Velocidad USB", value: "Hasta 5 Gbps" },
+      { label: "Plug & Play", value: "Sí" },
+    ],
+  },
+  {
+    id: "p11",
+    title: "Switch de Red No Administrable 24 Puertos 10/100 Mbps",
+    price: 1899,
+    rating: 4,
+    reviewsCount: 5,
+    imageUrl: p11,
+    images: [p11],
+    categoryId: "c3",
+    brand: "TP-Link",
+    stock: 7,
+    description:
+      "Switch de escritorio/rack no administrable de 24 puertos Fast Ethernet 10/100 Mbps. Diseño sin ventilador para operación silenciosa, carcasa metálica robusta y tecnología de ahorro de energía. Ideal para expandir redes en oficinas y pequeñas empresas.",
+    specs: [
+      { label: "Puertos", value: "24x RJ45 10/100 Mbps" },
+      { label: "Tipo", value: "No administrable" },
+      { label: "Montaje", value: "Escritorio / Rack 13\"" },
+      { label: "Ventilador", value: "Sin ventilador (fanless)" },
+      { label: "Carcasa", value: "Metal" },
+    ],
+  },
+  {
+    id: "p12",
+    title: "Pasta Térmica de Alto Rendimiento 100g, Alta Conductividad",
+    price: 299,
+    rating: 4,
+    reviewsCount: 16,
+    imageUrl: p12,
+    images: [p12],
+    categoryId: "c2",
+    brand: "Arctic",
+    stock: 40,
+    description:
+      "Pasta térmica de alto rendimiento en presentación de 100 gramos. Compuesto de alta conductividad térmica para una transferencia de calor óptima entre el procesador y el disipador. No conductiva eléctricamente, fácil de aplicar e incluye espátula.",
+    specs: [
+      { label: "Contenido", value: "100 g" },
+      { label: "Conductividad", value: "8.5 W/mK" },
+      { label: "Tipo", value: "No conductiva eléctrica" },
+      { label: "Incluye", value: "Espátula de aplicación" },
+      { label: "Uso", value: "CPU / GPU" },
+    ],
+  },
+  {
+    id: "p13",
+    title: "Repetidor Wi-Fi 300Mbps con Botón WPS y Antenas Externas",
+    price: 499,
+    oldPrice: 699,
+    rating: 4,
+    reviewsCount: 22,
+    imageUrl: p13,
+    images: [p13],
+    categoryId: "c3",
+    brand: "TP-Link",
+    stock: 25,
+    description:
+      "Repetidor de señal Wi-Fi de 300 Mbps con dos antenas externas para mayor cobertura. Configuración fácil con botón WPS, compatible con cualquier router. Incluye puerto Ethernet para conectar dispositivos por cable e indicador LED de intensidad de señal.",
+    specs: [
+      { label: "Velocidad", value: "300 Mbps" },
+      { label: "Banda", value: "2.4 GHz" },
+      { label: "Antenas", value: "2 externas" },
+      { label: "Puerto Ethernet", value: "1x RJ45 10/100" },
+      { label: "Configuración", value: "Botón WPS" },
+    ],
+  },
+];

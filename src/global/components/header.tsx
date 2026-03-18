@@ -102,10 +102,15 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* DERECHA: menú superior */}
         <nav className="flex w-full sm:w-auto items-center justify-between sm:justify-end gap-3 sm:gap-6">
-          {/* Ordenes */}
-          <button className={navItemBase} type="button" onClick={() => navigate("/orders")}>
-            <HiOutlineClipboardList className="h-5 w-5 text-[#011C40]" />
-            <span className="hidden xs:inline">Ordenes</span>
+          {/* Wishlist */}
+          <button className={navItemBase} type="button" onClick={() => navigate("/wishlist")}>
+            <LuHeart className="h-5 w-5 text-[#011C40]" />
+            <span className="hidden xs:inline">Wishlist</span>
+            {count > 0 && (
+              <span className="ml-1 text-[11px] bg-[#F68743] text-white rounded-full px-2 py-0.5">
+                {count}
+              </span>
+            )}
           </button>
 
           {/* Carrito */}
@@ -156,16 +161,12 @@ export const Header: React.FC<HeaderProps> = ({
                     Configuración de perfil
                   </Link>
                   <Link
-                    to="/wishlist"
-                    className="block w-full text-left px-4 py-2 hover:bg-slate-50 text-[#011C40]"
+                    to="/orders"
+                    className="block px-4 py-2 hover:bg-slate-50 text-[#011C40]"
+                    onClick={() => setUserMenuOpen(false)}
                   >
-                    <LuHeart className="inline mr-2" />
-                    {count > 0 && (
-                      <span className="absolute -top-1 -right-2 bg-[#F68743] text-white text-[10px] font-bold rounded-full h-4 min-w-4 px-1 flex items-center justify-center">
-                        {count}
-                      </span>
-                    )}
-                    Wishlist
+                    <HiOutlineClipboardList className="inline mr-2 h-4 w-4" />
+                    Mis ordenes
                   </Link>
                   <button
                     type="button"

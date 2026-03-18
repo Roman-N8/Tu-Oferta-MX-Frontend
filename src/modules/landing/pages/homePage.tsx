@@ -6,19 +6,13 @@ import { PROVIDERS_MOCK } from "../../providers/domain/mock/providers.mock";
 import { ProductCarouselSection } from "../../catalog/components/productCarouselSection";
 import { type ProductCardProps } from "../../catalog/components/productCard";
 
+import { PRODUCTS } from "../../catalog/domain/mock/products.mock";
+import { CATEGORIES } from "../../catalog/domain/mock/categories.mock";
+
 import { useCart } from "../../cart/hooks/useCart";
 import { useWishlist } from "../../wishlist/hooks/useWishlist"
 
 import { useNavigate } from "react-router-dom";
-
-import p1 from "../../../assets/products/p1.png";
-import p2 from "../../../assets/products/p2.png";
-// import p3 from "../../../assets/products/p3.png";
-// import p4 from "../../../assets/products/p4.png";
-// import p5 from "../../../assets/products/p5.png";
-import p6 from "../../../assets/products/p6.png";
-import p7 from "../../../assets/products/p7.png";
-import p8 from "../../../assets/products/p8.png";
 
 // Mapear datos del mock de proveedores al formato de ProviderCard
 const providersForCards = PROVIDERS_MOCK.slice(0, 3).map((p) => ({
@@ -31,90 +25,30 @@ const providersForCards = PROVIDERS_MOCK.slice(0, 3).map((p) => ({
   avatarImage: p.avatarImageUrl,
 }));
 
-const bestSellersMock: (ProductCardProps & { category: string })[] = [
-  {
-    id: 1,
-    brand: "Asus",
-    name: "Asus Motherboard AMD B550, Prime B550M-A AC, AM4 mATX...",
-    imageUrl: p6,
-    rating: 0,
-    reviewCount: 0,
-    price: 4500,
-    category: "Todo",
-  },
-  {
-    id: 2,
-    brand: "Logitech",
-    name: "Logitech Mouse inalámbrico M185, diseño ergonómico...",
-    imageUrl: p7,
-    rating: 4.7,
-    reviewCount: 6,
-    price: 1500,
-    oldPrice: 2680,
-    discountPercent: 56,
-    category: "Categoría 1",
-  },
-  {
-    id: 3,
-    brand: "QIN",
-    name: "Bobina De Cable Utp Cat6, Para Interior, 100 Metros...",
-    imageUrl: p8,
-    rating: 4.3,
-    reviewCount: 2,
-    price: 450,
-    category: "Categoría 2",
-  },
-  {
-    id: 4,
-    brand: "TP-Link",
-    name: "TP-Link Tapo C520WS, Cámara de Seguridad Wi-Fi...",
-    imageUrl: p2,
-    rating: 4.8,
-    reviewCount: 10,
-    price: 4500,
-    category: "Categoría 3",
-  },
-  {
-    id: 5,
-    brand: "TP-Link",
-    name: "TP-Link Tapo C520WS, Cámara de Seguridad Wi-Fi...",
-    imageUrl: p2,
-    rating: 4.8,
-    reviewCount: 10,
-    price: 4500,
-    category: "Categoría 1",
-  },
-  {
-    id: 6,
-    brand: "TP-Link",
-    name: "TP-Link Tapo C520WS, Cámara de Seguridad Wi-Fi...",
-    imageUrl: p8,
-    rating: 4.8,
-    reviewCount: 10,
-    price: 4500,
-    category: "Categoría 2",
-  },
-  {
-    id: 7,
-    brand: "TP-Link",
-    name: "TP-Link Tapo C520WS, Cámara de Seguridad Wi-Fi...",
-    imageUrl: p1,
-    rating: 4.8,
-    reviewCount: 10,
-    price: 4500,
-    category: "Categoría 3",
-  },
-  {
-    id: 8,
-    brand: "TP-Link",
-    name: "TP-Link Tapo C520WS, Cámara de Seguridad Wi-Fi...",
-    imageUrl: p2,
-    rating: 4.8,
-    reviewCount: 10,
-    price: 4500,
-    category: "Categoría 4",
-  },
-];
+// Mapear PRODUCTS del mock al formato de ProductCardProps con categoría
+const productsForCarousel: (ProductCardProps & { category: string })[] =
+  PRODUCTS.map((p) => {
+    const cat = CATEGORIES.find((c) => c.id === p.categoryId);
+    const discountPercent =
+      p.oldPrice && p.oldPrice > p.price
+        ? Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100)
+        : undefined;
+
+    return {
+      id: p.id,
+      brand: p.brand,
+      name: p.title,
+      imageUrl: p.imageUrl,
+      rating: p.rating,
+      reviewCount: p.reviewsCount,
+      price: p.price,
+      oldPrice: p.oldPrice,
+      discountPercent,
+      category: cat?.name ?? "Todo",
+    };
+  });
+
+const categoryNames = CATEGORIES.map((c) => c.name);
 
 export const HomePage: React.FC = () => {
   const { addItem } = useCart();
@@ -173,8 +107,8 @@ export const HomePage: React.FC = () => {
       {/* SECCIÓN: Lo más vendido (con categorías) */}
       <ProductCarouselSection
         title="Lo más vendido"
-        products={bestSellersMock}
-        categories={["Categoría 1", "Categoría 2", "Categoría 3", "Categoría 4"]}
+        products={productsForCarousel}
+        categories={categoryNames}
         showAllTab={true}
         getProductCategory={(p) => (p as any).category}
         onOpenProduct={(p) => navigate(`/product/${p.id}`)}
@@ -203,10 +137,10 @@ export const HomePage: React.FC = () => {
         }
       />
 
-      {/* SECCIÓN: Lo más relevante de Seguridad (sin tabs) */}
+      {/* SECCIÓN: Lo más relevante de Redes (sin tabs) */}
       <ProductCarouselSection
-        title="Lo más relevante de Seguridad"
-        products={bestSellersMock}
+        title="Lo más relevante de Redes"
+        products={productsForCarousel.filter((p) => p.category === "Redes")}
         onOpenProduct={(p) => navigate(`/product/${p.id}`)}
         onAddToCart={(p) =>
           addItem(
@@ -234,10 +168,10 @@ export const HomePage: React.FC = () => {
       />
 
 
-      {/* SECCIÓN: Lo más relevante de Hardware (sin tabs) */}
+      {/* SECCIÓN: Lo más relevante de Computo (sin tabs) */}
       <ProductCarouselSection
-        title="Lo más relevante en hardware"
-        products={bestSellersMock}
+        title="Lo más relevante en Computo"
+        products={productsForCarousel.filter((p) => p.category === "Computo")}
         onOpenProduct={(p) => navigate(`/product/${p.id}`)}
         onAddToCart={(p) =>
           addItem(

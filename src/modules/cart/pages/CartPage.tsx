@@ -2,7 +2,12 @@ import { Link } from "react-router-dom";
 import { useCart } from "../hooks/useCart";
 import { useNavigate } from "react-router-dom";
 
-export default function CartPage() {
+interface CartPageProps {
+  isAuthenticated?: boolean;
+  onLoginClick?: () => void;
+}
+
+export default function CartPage({ isAuthenticated, onLoginClick }: CartPageProps) {
   const { state, subtotal, totalItems, setQty, removeItem, clear } = useCart();
   const navigate = useNavigate();
 
@@ -72,7 +77,13 @@ export default function CartPage() {
 
             <button
               className="mt-4 w-full rounded-xl bg-[#F68743] px-4 py-3 text-sm font-semibold text-white hover:bg-[#f46f1f] transition"
-              onClick={() => navigate("/checkout/shipping")}
+              onClick={() => {
+                if (!isAuthenticated) {
+                  onLoginClick?.();
+                  return;
+                }
+                navigate("/checkout/shipping");
+              }}
             >
               Continuar a pago
             </button>

@@ -1,3 +1,17 @@
+// ============================================================
+// AUTH SERVICE — MODO DEMO (simulado, sin backend)
+// Cuando el backend esté listo, reemplazar las implementaciones
+// de cada función con los fetch reales.
+// ============================================================
+
+const DEMO_DELAY = 600; // ms de espera para simular latencia
+
+function delay(ms = DEMO_DELAY) {
+  return new Promise((r) => setTimeout(r, ms));
+}
+
+// ---------- tipos (sin cambios) ----------
+
 export interface LoginPayload {
   email: string;
   password: string;
@@ -13,30 +27,6 @@ export interface LoginResponse {
   };
 }
 
-const API_URL = import.meta.env.VITE_API_URL ?? "http://127.0.0.1:8000/api/v1/";
-
-export async function loginRequest(
-  payload: LoginPayload
-): Promise<LoginResponse> {
-  const res = await fetch(`${API_URL}identity/auth/login/`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-  });
-
-  if (!res.ok) {
-    throw new Error("Credenciales inválidas");
-  }
-
-  return res.json();
-}
-
-// Registro de usuario
-// --------------------------------------------------
-// Paso 1: Iniciar registro
-// --------------------------------------------------
 export interface RegisterPayload {
   email: string;
   password: string;
@@ -44,75 +34,14 @@ export interface RegisterPayload {
 }
 
 export interface RegisterResponse {
-    message: string;
+  message: string;
 }
 
-export async function registerRequest(
-  payload: RegisterPayload
-): Promise<RegisterResponse> {
-  const res = await fetch(`${API_URL}identity/auth/initiate-registration/`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-  });
-
-  if (!res.ok) {
-    const data = await res.json().catch(() => ({}));
-    const message =
-      (data && (data.detail || data.error)) ||
-      "No se pudo completar el registro";
-    throw new Error(message);
-  }
-
-  return res.json();
-}
-
-// --------------------------------------------------
-// Paso 2: Verificacion de correo
-// Paso 2.1: Reenvio de código
-// --------------------------------------------------
 export interface VerifyEmailPayload {
   email: string;
   code: string;
 }
 
-export async function verifyEmailCode(
-  payload: VerifyEmailPayload
-): Promise<{ message: string }> {
-  const res = await fetch(`${API_URL}identity/auth/verify-code/`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
-
-  if (!res.ok) {
-    const data = await res.json().catch(() => ({}));
-    throw new Error(data.detail || data.error || "Código inválido");
-  }
-
-  return res.json();
-}
-
-export async function resendVerificationCode(email: string): Promise<{ message: string }> {
-  const res = await fetch(`${API_URL}identity/auth/resend-verification-code/`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email }),
-  });
-
-  if (!res.ok) {
-    const data = await res.json().catch(() => ({}));
-    throw new Error(data.detail || data.error || "No se pudo reenviar el código");
-  }
-
-  return res.json();
-}
-
-// --------------------------------------------------
-// Paso 3: Configuración de cuenta
-// --------------------------------------------------
 export interface CompleteRegistrationPayload {
   email: string;
   name: string;
@@ -126,50 +55,89 @@ export interface TokensResponse {
   refreshToken: string;
 }
 
-export async function completeRegistration(
-  payload: CompleteRegistrationPayload
-): Promise<TokensResponse> {
-  const res = await fetch(`${API_URL}identity/auth/complete-registration/`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
-
-  console.log(payload);
-
-  if (!res.ok) {
-    const data = await res.json().catch(() => ({}));
-    throw new Error(
-      data.detail || data.error || "No se pudo completar el registro"
-    );
-  }
-
-  return res.json();
-}
-
-
-// Recuperación de contraseña
-// --------------------------------------------------
-// Paso 1: Solicitar restablecimiento
-// --------------------------------------------------
-
 export interface PasswordResetRequestPayload {
   email: string;
 }
 
-export async function PasswordResetRequest(
-  payload: PasswordResetRequestPayload
+// ---------- implementaciones demo ----------
+
+/**
+ * Login simulado.
+ * Acepta cualquier email con formato válido y cualquier contraseña
+ * que cumpla la regex del formulario.
+ */
+export async function loginRequest(
+  payload: LoginPayload
+): Promise<LoginResponse> {
+  await delay();
+
+  // Nombre de demo basado en el email
+  const namePart = payload.email.split("@")[0];
+  const displayName = namePart.charAt(0).toUpperCase() + namePart.slice(1);
+
+  return {
+    accessToken: "demo-access-token-" + Date.now(),
+    refreshToken: "demo-refresh-token-" + Date.now(),
+    user: {
+      id: "demo-user-1",
+      name: displayName,
+      email: payload.email,
+    },
+  };
+}
+
+/**
+ * Registro simulado (paso 1).
+ * Siempre responde con éxito.
+ */
+export async function registerRequest(
+  _payload: RegisterPayload
+): Promise<RegisterResponse> {
+  await delay();
+  return { message: "Código de verificación enviado." };
+}
+
+/**
+ * Verificación de email simulada (paso 2).
+ * Acepta cualquier código de 4 dígitos.
+ */
+export async function verifyEmailCode(
+  _payload: VerifyEmailPayload
 ): Promise<{ message: string }> {
-  const res = await fetch(`${API_URL}auth/password-reset-request/`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
+  await delay();
+  return { message: "Correo verificado correctamente." };
+}
 
-  if (!res.ok) {
-    const data = await res.json().catch(() => ({}));
-    throw new Error(data.detail || data.error || "Código inválido");
-  }
+/**
+ * Reenvío de código simulado.
+ */
+export async function resendVerificationCode(
+  _email: string
+): Promise<{ message: string }> {
+  await delay();
+  return { message: "Código reenviado." };
+}
 
-  return res.json();
+/**
+ * Completar registro simulado (paso 3).
+ * Devuelve tokens demo.
+ */
+export async function completeRegistration(
+  _payload: CompleteRegistrationPayload
+): Promise<TokensResponse> {
+  await delay();
+  return {
+    accessToken: "demo-access-token-" + Date.now(),
+    refreshToken: "demo-refresh-token-" + Date.now(),
+  };
+}
+
+/**
+ * Solicitud de restablecimiento de contraseña simulada.
+ */
+export async function PasswordResetRequest(
+  _payload: PasswordResetRequestPayload
+): Promise<{ message: string }> {
+  await delay();
+  return { message: "Enlace de recuperación enviado." };
 }

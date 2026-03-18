@@ -1,17 +1,23 @@
 import { useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { HiStar } from "react-icons/hi";
+import { LuShoppingCart, LuHeart } from "react-icons/lu";
+import { HiHeart } from "react-icons/hi";
 import { useProductDetail } from "../hooks/useProductDetail";
 import { ProductCard } from "../components/productCard";
 import { useCart } from "../../cart/hooks/useCart";
+import { useWishlist } from "../../wishlist/hooks/useWishlist";
+import { PRODUCTS } from "../domain/mock/products.mock";
 
 export default function ProductDetailPage() {
   const { productId } = useParams();
   const { product, loading, error } = useProductDetail(productId);
 
   const { addItem } = useCart();
+  const { toggle, has } = useWishlist();
 
   const [activeImage, setActiveImage] = useState<string | null>(null);
+  const isWishlisted = product ? has(product.id) : false;
 
   const discountPercent = useMemo(() => {
     if (!product?.oldPrice || product.oldPrice <= product.price) return undefined;
@@ -170,17 +176,41 @@ export default function ProductDetailPage() {
                 type="button"
                 disabled={typeof product.stock === "number" && product.stock <= 0}
                 className="mt-5 w-full rounded-md bg-[#F68743] px-4 py-3 text-sm font-semibold text-white flex items-center justify-center gap-2 hover:bg-[#f46f1f] transition disabled:opacity-50 disabled:cursor-not-allowed"
-                onClick={() => console.log("add-to-cart", product.id)}
+                onClick={() =>
+                  addItem(
+                    {
+                      productId: product.id,
+                      title: product.title,
+                      brand: product.brand,
+                      imageUrl: product.imageUrl,
+                      price: product.price,
+                    },
+                    1
+                  )
+                }
               >
-                🛒 <span>Añadir al carrito</span>
+                <LuShoppingCart className="h-4 w-4" /> <span>Añadir al carrito</span>
               </button>
 
               <button
                 type="button"
                 className="mt-2 w-full rounded-md border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-[#011C40] hover:bg-slate-50 transition"
-                onClick={() => console.log("wishlist", product.id)}
+                onClick={() =>
+                  toggle({
+                    productId: product.id,
+                    title: product.title,
+                    brand: product.brand,
+                    imageUrl: product.imageUrl,
+                    price: product.price,
+                  })
+                }
               >
-                ❤️ <span>Guardar</span>
+                {isWishlisted ? (
+                  <HiHeart className="h-4 w-4 text-red-500 inline" />
+                ) : (
+                  <LuHeart className="h-4 w-4 inline" />
+                )}{" "}
+                <span>{isWishlisted ? "Guardado" : "Guardar"}</span>
               </button>
 
               <div className="mt-4 text-xs text-slate-500">
@@ -190,43 +220,54 @@ export default function ProductDetailPage() {
           </aside>
         </div>
 
-        {/* (Opcional) Relacionados */}
+        {/* Relacionados (misma categoría) */}
         <div className="mt-8">
           <h3 className="text-base font-semibold text-[#011C40] mb-3">
             Productos relacionados
           </h3>
           <div className="flex gap-4 overflow-auto pb-2">
-            {/* Por ahora usa tu carousel actual si ya lo tienes */}
-            {/* Cuando tengas API: repo.getRelated(productId) */}
-            {/* Mock rápido */}
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="shrink-0">
-                <ProductCard
-                  id={`rel-${i}`}
-                  brand="Marca"
-                  name="Producto relacionado"
-                  imageUrl="https://via.placeholder.com/400x400.png?text=Relacionado"
-                  rating={4}
-                  reviewCount={12}
-                  price={1299}
-                  oldPrice={1599}
-                  discountPercent={19}
-                  onAddToCart={() =>
-                    addItem(
-                      {
-                        productId: `rel-${i}`,
-                        title: "Producto relacionado",
-                        brand: "Marca",
-                        imageUrl: "https://via.placeholder.com/400x400.png?text=Relacionado",
-                        price: 1299,
-                        stock: 99,
-                      },
-                      1
-                    )
-                  }
-                />
-              </div>
-            ))}
+            {PRODUCTS.filter(
+              (r) =>
+                r.categoryId === product.categoryId &&
+                String(r.id) !== String(product.id)
+            )
+              .slice(0, 6)
+              .map((r) => {
+                const disc =
+                  r.oldPrice && r.oldPrice > r.price
+                    ? Math.round(((r.oldPrice - r.price) / r.oldPrice) * 100)
+                    : undefined;
+                return (
+                  <div key={r.id} className="shrink-0">
+                    <ProductCard
+                      id={r.id}
+                      brand={r.brand}
+                      name={r.title}
+                      imageUrl={r.imageUrl}
+                      rating={r.rating}
+                      reviewCount={r.reviewsCount}
+                      price={r.price}
+                      oldPrice={r.oldPrice}
+                      discountPercent={disc}
+                      onOpen={() => {
+                        window.location.href = `/product/${r.id}`;
+                      }}
+                      onAddToCart={() =>
+                        addItem(
+                          {
+                            productId: r.id,
+                            title: r.title,
+                            brand: r.brand,
+                            imageUrl: r.imageUrl,
+                            price: r.price,
+                          },
+                          1
+                        )
+                      }
+                    />
+                  </div>
+                );
+              })}
           </div>
         </div>
       </div>
